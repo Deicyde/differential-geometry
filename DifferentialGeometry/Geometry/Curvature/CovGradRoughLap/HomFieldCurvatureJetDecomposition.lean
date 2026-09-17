@@ -470,6 +470,19 @@ private theorem headDifferenceDrop_bracket (g : SmoothRiemannianMetric I M) (r s
   rw [hsplit (covGrad (I := I) (M := M) g r (s + 2) (iteratedCovGrad g r s 2 S)) _ hT3sub]
   rw [hR1]
 
+/-- Keep the additive normalization abstract: rewriting the fully instantiated
+smooth-tensor expressions duplicates very large dependent types in the kernel. -/
+private theorem traceDrop_of_decomposition {A B : Type*}
+    [AddCommGroup A] [AddCommGroup B] (T : A → B)
+    (a b u v w z : A) (P Q R U V C : B)
+    (hadd : ∀ x y, T (x + y) = T x + T y)
+    (hsub : ∀ x y, T (x - y) = T x - T y)
+    (hleft : P = T b) (hhead : a - b = u + v + w + z)
+    (hu : T u = Q) (hv : T v = R) (hw : T w = U) (hz : T z = V)
+    (hC : C = R + V) : T a - P = Q + C + U := by
+  rw [hleft, ← hsub, hhead, hadd, hadd, hadd, hu, hv, hw, hz, hC]
+  abel
+
 private theorem exists_headDifferenceDrop_metricDoubleTrace (g : SmoothRiemannianMetric I M)
     (r s : ℕ) :
     ∃ (P₀ : HomTensorRSField (E := E) (M := M) r s (s + 1) I)
@@ -508,22 +521,48 @@ private theorem exists_headDifferenceDrop_metricDoubleTrace (g : SmoothRiemannia
   obtain ⟨PB, hPB⟩ := exists_appFullSec_comp (I := I) (M := M) g r (s + 1) (s + 3) (s + 1)
     Tσ₂₃ RA_s1
   refine ⟨P₀, PA + PB, P₂, fun S => ?_⟩
-  rw [show iteratedCovGrad g r (s + 1) 2 (covGrad (I := I) (M := M) g r s S) =
-      covGrad (I := I) (M := M) g r (s + 2) (iteratedCovGrad g r s 2 S) from rfl]
-  rw [appFullSec_slotExtTrace_eq (I := I) (M := M) (E := E) g r s
-    (covGrad (I := I) (M := M) g r (s + 2) (iteratedCovGrad g r s 2 S))]
-  rw [← appFullSec_sub_right (I := I) (M := M) g r (s + 1 + 2) (s + 1)
-    (metricDoubleTraceField (I := I) (M := M) (E := E) g r (s + 1))
-    (covGrad (I := I) (M := M) g r (s + 2) (iteratedCovGrad g r s 2 S))]
-  rw [headDifferenceDrop_bracket (I := I) (M := M) (E := E) g r s RA_s RA_s1 hRA_s hRA_s1 S]
-  rw [appFullSec_add_right, appFullSec_add_right, appFullSec_add_right]
-  rw [hP₀ S, hP₂ (iteratedCovGrad g r s 2 S), hPA (covGrad (I := I) (M := M) g r s S)]
-  rw [hTσ₂₃ (homTensorRSFieldApply (I := I) (M := M) g r (s + 1) (s + 3) RA_s1
-    (covGrad (I := I) (M := M) g r s S))]
-  rw [hPB (covGrad (I := I) (M := M) g r s S)]
-  rw [appFullSec_add_left (I := I) (M := M) g r (s + 1) (s + 1) PA PB
-    (covGrad (I := I) (M := M) g r s S)]
-  abel
+  apply traceDrop_of_decomposition
+    (T := fun W : SmoothCcTensor g r (s + 3) =>
+      homTensorRSFieldApply (I := I) (M := M) g r (s + 3) (s + 1)
+        (metricDoubleTraceField (I := I) (M := M) (E := E) g r (s + 1)) W)
+    (a := covGrad (I := I) (M := M) g r (s + 2) (iteratedCovGrad g r s 2 S))
+    (b := homTensorRSFieldApply (I := I) (M := M) g r (s + 3) (s + 3)
+      (slotExtendFullSec (I := I) r (s + 2) (s + 2)
+        (swapTwoSec (I := I) (M := M) (E := E) r s))
+      (homTensorRSFieldApply (I := I) (M := M) g r (s + 3) (s + 3)
+        (swapTwoSec (I := I) (M := M) (E := E) r (s + 1))
+        (covGrad (I := I) (M := M) g r (s + 2) (iteratedCovGrad g r s 2 S))))
+    (u := homTensorRSFieldApply (I := I) (M := M) g r s (s + 3)
+      (homTensorRSCovGradSec (I := I) g r s (s + 2) RA_s) S)
+    (v := homTensorRSFieldApply (I := I) (M := M) g r (s + 1) (s + 3)
+      (slotExtendFullSec (I := I) r s (s + 2) RA_s)
+      (covGrad (I := I) (M := M) g r s S))
+    (w := homTensorRSFieldApply (I := I) (M := M) g r (s + 2) (s + 3)
+      (homTensorRSCovGradSec (I := I) g r (s + 2) (s + 2)
+        (swapTwoSec (I := I) (M := M) (E := E) r s)) (iteratedCovGrad g r s 2 S))
+    (z := homTensorRSFieldApply (I := I) (M := M) g r (s + 3) (s + 3)
+      (slotExtendFullSec (I := I) r (s + 2) (s + 2)
+        (swapTwoSec (I := I) (M := M) (E := E) r s))
+      (homTensorRSFieldApply (I := I) (M := M) g r (s + 1) (s + 3) RA_s1
+        (covGrad (I := I) (M := M) g r s S)))
+    (R := homTensorRSFieldApply (I := I) (M := M) g r (s + 1) (s + 1) PA
+      (covGrad (I := I) (M := M) g r s S))
+    (V := homTensorRSFieldApply (I := I) (M := M) g r (s + 1) (s + 1) PB
+      (covGrad (I := I) (M := M) g r s S))
+  · intro U V
+    exact appFullSec_add_right ..
+  · intro U V
+    exact appFullSec_sub_right ..
+  · exact appFullSec_slotExtTrace_eq (I := I) (M := M) (E := E) g r s
+      (covGrad (I := I) (M := M) g r (s + 2) (iteratedCovGrad g r s 2 S))
+  · exact headDifferenceDrop_bracket (I := I) (M := M) (E := E) g r s
+      RA_s RA_s1 hRA_s hRA_s1 S
+  · exact hP₀ S
+  · exact hPA (covGrad (I := I) (M := M) g r s S)
+  · exact hP₂ (iteratedCovGrad g r s 2 S)
+  · exact (hTσ₂₃ _).trans (hPB (covGrad (I := I) (M := M) g r s S))
+  · exact appFullSec_add_left (I := I) (M := M) g r (s + 1) (s + 1) PA PB
+      (covGrad (I := I) (M := M) g r s S)
 
 private theorem exists_roughLapCommutatorTrace_homField
     (g : SmoothRiemannianMetric I M) (r s : ℕ) :
