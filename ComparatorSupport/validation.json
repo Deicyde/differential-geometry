@@ -1,5 +1,5 @@
 {
-  "timestamp_utc": "2026-09-19T17:13:23.289071+00:00",
+  "timestamp_utc": "2026-09-19T18:28:24.653635+00:00",
   "files": {
     "Challenge.lean": {
       "lines": 245,
@@ -41,7 +41,7 @@
     "timed_out": true,
     "failed_dependencies": [],
     "diagnostics": [],
-    "note": "Dedicated file check still importing/elaborating. Exact same imports+definitions passed in Challenge."
+    "note": "Historical partial dedicated check; exact same imports+definitions passed in Challenge, subsequent compiled HamiltonDefinitions passed strict 37,653-constant closure comparison."
   },
   "durable_support_lsp": {
     "partial": false,
@@ -49,9 +49,9 @@
     "failed_dependencies": [],
     "diagnostics": []
   },
-  "concrete_original_curvature_bridge": "Complete proof candidate saved in HamiltonBridge.lean; original interface dependency build pending, so not yet checked",
+  "concrete_original_curvature_bridge": "All four concrete connection/curvature proof fragments passed full live Lean validation and standard-three-axiom audits; see concrete-bridge-validation.json. Full HamiltonBridge predicate/quotient packaging remains pending.",
   "hamilton_solution": "Solution.lean imports original Hamilton and applies bridge; pending upgraded original Hamilton build and concrete bridge check",
-  "comparator": "not run for updated pair",
+  "comparator": "Full hosted check in progress. Prior attempts stopped at library compilation errors, now repaired; no full Comparator pass yet.",
   "definition_agreement_lsp": {
     "partial": false,
     "success": true,

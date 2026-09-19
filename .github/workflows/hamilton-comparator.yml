@@ -16,10 +16,19 @@ jobs:
   comparator:
     runs-on: ubuntu-24.04
     timeout-minutes: 360
-    env:
-      LEAN_NUM_THREADS: 2
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Select Lean build concurrency
+        run: |
+          python3 - <<'PY'
+          import os
+          cores = os.cpu_count()
+          threads = min(4, cores or 1)
+          print(f"Logical CPUs detected: {cores}; Lean worker threads: {threads}")
+          with open(os.environ['GITHUB_ENV'], 'a') as env:
+              env.write(f"LEAN_NUM_THREADS={threads}\n")
+          PY
 
       - name: Install the pinned Lean toolchain
         run: |
@@ -63,7 +72,7 @@ jobs:
         # Comparator still compares statements, audits axioms, and replays the kernel.
         run: |
           export COMPARATOR_LANDRUN="$PWD/.lake/comparator-tools/v4.34.0-rc2/scripts/fake-landrun.sh"
-          python3 ComparatorSupport/run_comparator.py --stream --fail-fast
+          python3 ComparatorSupport/run_comparator.py --stream --fail-fast --threads "$LEAN_NUM_THREADS"
 
       - name: Save partial or complete project build progress
         if: always()

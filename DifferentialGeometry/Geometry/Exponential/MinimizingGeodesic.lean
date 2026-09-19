@@ -389,7 +389,7 @@ theorem riemannianEDist_eq_zero_imp_eq
   have : T3Space M := inferInstance
   let em : EMetricSpace M := EMetricSpace.ofRiemannianMetric I M
   have hedist : @edist M em.toEDist a b = 0 := h
-  exact (@edist_eq_zero M em a b).mp hedist
+  exact em.eq_of_edist_eq_zero hedist
 
 attribute [-instance] Tensor0SBundle.tangentSpaceNormedAddCommGroup
   Tensor0SBundle.tangentSpaceNormedSpace in

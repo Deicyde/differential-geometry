@@ -1,0 +1,47 @@
+{
+  "checked_at_utc": "2026-09-19T18:20:33.760764+00:00",
+  "toolchain": "leanprover/lean4:v4.34.0-rc2",
+  "mathlib_revision": "769b0a5ad45c8d886c754c0be19835b908f98dcb",
+  "source_file": "ComparatorSupport/ConcreteBridgeProbe.lean",
+  "source_sha256": "2ae8b79b519037b64005fc3ef6066cf2b52e30e44a2dbc5904cce9311aecc30a",
+  "tested_source_file": ".lake/BridgeConnectionProbe.lean",
+  "tested_source_sha256": "2ae8b79b519037b64005fc3ef6066cf2b52e30e44a2dbc5904cce9311aecc30a",
+  "lean_exit_code": 0,
+  "diagnostics": [],
+  "command": "lean .lake/BridgeConnectionProbe.lean",
+  "dependency_resolution": "LEAN_PATH prefixed with .lake/ci/35459970303-build/lib/lean, then lake env LEAN_PATH; no dependency build",
+  "ci_run": "https://github.com/Deicyde/differential-geometry/actions/runs/35459970303",
+  "interface_artifacts": {
+    "DifferentialGeometry/Geometry/Connection/LeviCivita/Torsion": "a0612ca35c743f93cace9b6864446498198c32283d56a402c9b1d279f3664727",
+    "DifferentialGeometry/Geometry/Connection/LeviCivita/Smooth/Connection": "73f392d68fbbfdcfb3e375201c5de7db468edbf2ce4ae4d2cb3968b8bce5c31f",
+    "DifferentialGeometry/Geometry/Curvature/Components/Basic": "fa224786516746107ea8a3cc73cca99e85959a3706cf06f17d8785893d8cf043"
+  },
+  "axiom_audit_exit_code": 0,
+  "axiom_audit_source_sha256": "95bfe6921f048518848c5bedb1380c34a2847b21135b1b5a7e0f724c1d760cf9",
+  "axiom_audit_output": "'HamiltonConnectionProbe.metricConnection_eq_original' depends on axioms: [propext, Classical.choice, Quot.sound]\n'HamiltonConnectionProbe.riemannValue_eq_original' depends on axioms: [propext, Classical.choice, Quot.sound]\n'HamiltonConnectionProbe.sectionalValue_eq' depends on axioms: [propext, Classical.choice, Quot.sound]\n'HamiltonConnectionProbe.ricciValue_eq' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+  "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "checked_theorems": [
+    "HamiltonConnectionProbe.metricConnection_eq_original",
+    "HamiltonConnectionProbe.riemannValue_eq_original",
+    "HamiltonConnectionProbe.sectionalValue_eq",
+    "HamiltonConnectionProbe.ricciValue_eq"
+  ],
+  "hamilton_bridge_sha256": "a4a8a4d267bbd98cc794d28ca444b6062ef07830b792c7cc22abb82bc826e3bb",
+  "challenge_sha256": "03f9b6d407eab42da62cec0d3d5b788345a39fc17867b44513aed12592d6d07f",
+  "hamilton_definitions_sha256": "1bca2a809ab0945c94431efd3d2b96caa99b397d0cc68e7adbda13f0061d823d",
+  "limitations": "Verifies concrete original Levi-Civita and curvature proof fragments after unfolding metricCov, metricCov_smooth and metric curvature aliases. Full HamiltonBridge packaging, original Hamilton, Solution and final Comparator still pending. The probe is not imported by Solution.",
+  "local_lsp_followup": {
+    "checked_at_utc": "2026-09-19T18:21:29.418211+00:00",
+    "file_path": "ComparatorSupport/ConcreteBridgeProbe.lean",
+    "partial": false,
+    "success": true,
+    "timed_out": false,
+    "items": [],
+    "failed_dependencies": [],
+    "dependency_resolution": "Fresh locally rebuilt interfaces; setup completed without further dependency builds."
+  }
+}

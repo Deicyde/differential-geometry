@@ -14,6 +14,16 @@ import subprocess
 import sys
 
 
+def positive_int(value):
+    try:
+        result = int(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError("must be a positive integer") from None
+    if result < 1:
+        raise argparse.ArgumentTypeError("must be a positive integer")
+    return result
+
+
 def main():
     root = Path(__file__).resolve().parent.parent
     toolchain = (root / "lean-toolchain").read_text().strip()
@@ -24,6 +34,8 @@ def main():
     parser.add_argument("--stream", action="store_true", help="Also print the log for CI")
     parser.add_argument("--fail-fast", action="store_true",
                         help="Stop this run on a reported build error, preserving completed artifacts")
+    parser.add_argument("--threads", type=positive_int, default=2,
+                        help="Lean worker threads (default: 2)")
     args = parser.parse_args()
     tools = args.tools.resolve()
     comparator = tools / ".lake/build/bin/comparator"
@@ -63,13 +75,14 @@ def main():
     output.mkdir(parents=True, exist_ok=False)
     command = [lake, "env", str(comparator), "comparator.json"]
     env = os.environ.copy()
-    env.update(LC_ALL="C", LEAN_NUM_THREADS="2", ELAN_TOOLCHAIN=toolchain,
+    env.update(LC_ALL="C", LEAN_NUM_THREADS=str(args.threads), ELAN_TOOLCHAIN=toolchain,
                COMPARATOR_LANDRUN=launcher, COMPARATOR_LEAN4EXPORT=str(exporter))
     metadata = {
         "started_at": started.isoformat(), "toolchain": toolchain,
         "comparator_revision": revision(tools),
         "lean4export_revision": revision(tools / ".lake/packages/lean4export"),
-        "project_revision": revision(root), "lean_num_threads": 2,
+        "project_revision": revision(root), "lean_num_threads": args.threads,
+        "logical_cpu_count": os.cpu_count(),
         "heartbeat_override": False, "status": "starting",
         "platform": sys.platform,
         "launcher": ("official development launcher; no OS sandbox isolation"
@@ -85,6 +98,8 @@ def main():
     save()
     (root / ".lake/comparator/latest-run.txt").write_text(str(output) + "\n")
     print(f"Comparator evidence: {output}", flush=True)
+    print(f"Logical CPUs detected: {metadata['logical_cpu_count']}; "
+          f"Lean worker threads: {args.threads}", flush=True)
     with (output / "run.log").open("w") as log:
         capture = args.stream or args.fail_fast
         process = subprocess.Popen(command, cwd=root, env=env,

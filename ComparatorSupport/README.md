@@ -33,6 +33,10 @@ Return to the repository root and run:
 python3 ComparatorSupport/run_comparator.py
 ```
 
+The local default is two Lean worker threads. `--threads N` changes concurrency;
+`--stream --fail-fast` streams diagnostics and stops the run on a build error.
+Hosted CI uses up to four detected CPU cores. No heartbeat limit is changed.
+
 The runner writes its log, exit status, tool revisions, and before/after source
 hashes below `.lake/comparator/`. It reports a pass only after Comparator exits
 successfully, prints its success and kernel-acceptance messages, and the inputs

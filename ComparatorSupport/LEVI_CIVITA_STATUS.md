@@ -56,3 +56,11 @@ The user has requested a passing upgraded Solution. `HamiltonBridge.lean` now ha
 `ComparatorSupport/DefinitionAgreement.lean` passed a complete live Lean check with zero diagnostics. It proves by reflexivity that the challenge's connection, tangent extension, and Riemann formula coincide with the generic support definitions. The LSP setup also successfully built `HamiltonDefinitions.olean` and `ComparatorSupport/LeviCivita.olean`.
 
 No challenge statement, hypothesis, or shared definition was changed in this resumed work. The final Comparator verdict remains pending. See the refreshed `validation.json` for per-file evidence.
+
+## Concrete connection and curvature checks
+
+`ConcreteBridgeProbe.lean` now checks all four concrete mathematical bridge proofs against the original `Torsion`, `Smooth.Connection`, and `Components.Basic` interfaces: Levi-Civita equality on differentiable fields, the complete Riemann formula, the sectional curvature pairing, and the Ricci basis trace. Lean exited successfully with zero diagnostics. Each theorem separately has exactly `propext`, `Classical.choice`, and `Quot.sound` as its axioms. No proof holes or heartbeat overrides were used.
+
+The probe uses the actual original connection with the thin `metricCov` and curvature aliases unfolded. Its proof bodies implement the same steps as `HamiltonBridge.lean`, whose source remains unchanged. To avoid LSP setup launching duplicate dependency builds, the bounded check used the latest downloaded same-version CI library directory first in an isolated `LEAN_PATH`, followed by the local cache. Exact source/artifact hashes, the successful exit status, and the full axiom output are saved in `concrete-bridge-validation.json`. This additional probe is outside the `Solution.lean` import closure. Full bridge packaging and the final Solution/Comparator run remain pending.
+
+After the single local port build refreshed the same interfaces, the complete live Lean check of `ConcreteBridgeProbe.lean` also passed (`partial=false`, `success=true`, zero diagnostics and failed dependencies), with no further dependency build. This local LSP result is recorded alongside the isolated check.
