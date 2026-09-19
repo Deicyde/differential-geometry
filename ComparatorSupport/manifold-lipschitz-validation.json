@@ -1,0 +1,34 @@
+{
+  "checked_at_utc": "2026-09-19T23:14:10.622672+00:00",
+  "scope": "The exact repaired local proof passed Lean against the real Mathlib toEuclidean definition. Entire Manifold/Lipschitz.lean and the full Solution/Comparator remain pending CI validation.",
+  "change": "Replace the deprecated .lipschitz field by ContinuousLinearEquiv.lipschitzWith in the existing inverse toEuclidean norm bound.",
+  "only_changed_theorem_name": true,
+  "statements_hypotheses_and_options_unchanged": true,
+  "validation": {
+    "scope": "Exact hto proof using the actual Mathlib toEuclidean definition and existing normed/finite-dimensional hypotheses. This is not a full-file or Comparator pass.",
+    "source": "DifferentialGeometry/Analysis/Sobolev/Manifold/Lipschitz.lean",
+    "source_sha256": "edaf5f9f582b79d18635a1e3cc8b6809d590e1cf73967b973cf4243d45f286a7",
+    "probe_sha256": "d5965b283da5c34e7bfa1b606d10f399d4c6a1b7d615bdb34d256120be1e055a",
+    "return_code": 0,
+    "elapsed_seconds": 31.89,
+    "lean_num_threads": 2,
+    "heartbeat_override": false,
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/comparator/manifold-lipschitz-port/ExactHto.lean"
+    ],
+    "diagnostics": "",
+    "checked_at": "2026-09-19T23:13:32.175467+00:00"
+  },
+  "exact_source_fragment": "      let D : \u211d\u22650 := \u2016(toEuclidean (E := E)).symm.toContinuousLinearMap\u2016\u208a\n      have hto : LipschitzWith D (toEuclidean (E := E)).symm := by\n        simpa only [D] using (toEuclidean (E := E)).symm.lipschitzWith\n",
+  "probe_source": "import Mathlib.Analysis.InnerProductSpace.EuclideanDist\nimport Mathlib.Analysis.Normed.Operator.NNNorm\n\nnoncomputable section\nopen scoped NNReal\n\nexample {E : Type*} [NormedAddCommGroup E] [NormedSpace \u211d E]\n    [FiniteDimensional \u211d E] :\n    LipschitzWith \u2016(toEuclidean (E := E)).symm.toContinuousLinearMap\u2016\u208a\n      (toEuclidean (E := E)).symm := by\n  let D : \u211d\u22650 := \u2016(toEuclidean (E := E)).symm.toContinuousLinearMap\u2016\u208a\n  have hto : LipschitzWith D (toEuclidean (E := E)).symm := by\n    simpa only [D] using (toEuclidean (E := E)).symm.lipschitzWith\n  exact hto\n",
+  "full_file_validation": {
+    "status": "deferred_to_ci",
+    "reason": "Existing local cache lacks the Mathlib umbrella imported by the project dependency closure; no umbrella fetch or dependency build performed.",
+    "project_dependency_count": 181
+  },
+  "toolchain": "leanprover/lean4:v4.34.0-rc2",
+  "local_evidence_directory": ".lake/comparator/manifold-lipschitz-port"
+}

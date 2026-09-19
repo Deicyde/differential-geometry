@@ -1,0 +1,39 @@
+{
+  "checked_at_utc": "2026-09-19T23:14:15.696607+00:00",
+  "scope": "Exact before/after proof-fragment validation against the actual Mathlib toEuclidean definition. Entire Intrinsic/Lipschitz.lean and the full Solution/Comparator remain pending CI validation.",
+  "change": "Replace the deprecated .lipschitz field with ContinuousLinearEquiv.lipschitzWith in the existing forward composition bound.",
+  "source": "DifferentialGeometry/Analysis/Sobolev/Intrinsic/Lipschitz.lean",
+  "source_sha256": "97fe825b823ecbac6225a8b4715c9574569e64c4c46fe9a82f3f766abdeaecce",
+  "only_changed_theorem_name": true,
+  "statements_hypotheses_and_options_unchanged": true,
+  "toolchain": "leanprover/lean4:v4.34.0-rc2",
+  "mathlib_revision": "769b0a5ad45c8d886c754c0be19835b908f98dcb",
+  "validation": {
+    "scope": "The exact final proof after rw [heq], generalized only over the already-typed outer function f and its Lipschitz bound hφ; the domain E and finite-dimensional normed hypotheses are unchanged. This is not a whole-file or Comparator pass.",
+    "lean_num_threads": 2,
+    "heartbeat_override": false,
+    "project_dependency_build": false,
+    "before": {
+      "file": ".lake/comparator/lipschitz-api-audit/ForwardBefore.lean",
+      "source_sha256": "701bb772710d8bdc811e4967521a10c63a3c8511612ccf050c48a29ee6244486",
+      "exit_code": 1,
+      "elapsed_seconds": 9.568719,
+      "diagnostics": ".lake/comparator/lipschitz-api-audit/ForwardBefore.lean:13:39: warning: `ContinuousLinearEquiv.lipschitz` has been deprecated: Use `ContinuousLinearMap.lipschitzWith` instead\n\nNote: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.lipschitz` to `ContinuousLinearMap.lipschitzWith x`).\n.lake/comparator/lipschitz-api-audit/ForwardBefore.lean:13:16: error: Invalid field notation: Function `ContinuousLinearEquiv.lipschitz` does not have a usable parameter of type `ContinuousLinearEquiv ...` for which to substitute `toEuclidean`\n\nNote: Such a parameter must be explicit, or implicit with a unique name, to be used by field notation\n"
+    },
+    "after": {
+      "file": ".lake/comparator/lipschitz-api-audit/ForwardAfter.lean",
+      "source_sha256": "240ba9216086e8a98af7f29aea4ad272cc0ec78e11904141f3c39e12ce805878",
+      "exit_code": 0,
+      "elapsed_seconds": 7.557244,
+      "diagnostics": ""
+    }
+  },
+  "exact_source_fragment_before": "  exact hφ.comp (toEuclidean (E := E)).lipschitz\n",
+  "exact_source_fragment_after": "  exact hφ.comp (toEuclidean (E := E)).lipschitzWith\n",
+  "probe_source_before": "import Mathlib.Analysis.InnerProductSpace.EuclideanDist\nimport Mathlib.Analysis.Normed.Operator.NNNorm\n\nnoncomputable section\nopen scoped NNReal\n\nexample {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]\n    [FiniteDimensional ℝ E]\n    {f : EuclideanSpace ℝ (Fin (Module.finrank ℝ E)) → ℝ} {C : ℝ≥0}\n    (hφ : LipschitzWith C f) :\n    LipschitzWith (C * ‖(toEuclidean (E := E)).toContinuousLinearMap‖₊)\n      (f ∘ toEuclidean (E := E)) := by\n  exact hφ.comp (toEuclidean (E := E)).lipschitz\n",
+  "probe_source_after": "import Mathlib.Analysis.InnerProductSpace.EuclideanDist\nimport Mathlib.Analysis.Normed.Operator.NNNorm\n\nnoncomputable section\nopen scoped NNReal\n\nexample {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]\n    [FiniteDimensional ℝ E]\n    {f : EuclideanSpace ℝ (Fin (Module.finrank ℝ E)) → ℝ} {C : ℝ≥0}\n    (hφ : LipschitzWith C f) :\n    LipschitzWith (C * ‖(toEuclidean (E := E)).toContinuousLinearMap‖₊)\n      (f ∘ toEuclidean (E := E)) := by\n  exact hφ.comp (toEuclidean (E := E)).lipschitzWith\n",
+  "full_file_validation": {
+    "status": "pending_ci",
+    "note": "No project dependency compilation or Mathlib umbrella fetch was performed."
+  }
+}

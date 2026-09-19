@@ -16,6 +16,10 @@ The compatibility repairs applied to the original library are:
 - `AntidiagonalTupleProductGrid.lean` explicitly imports the `ring` tactic. The
   complete file passed Lean; see `antidiagonal-ring-validation.json`.
 - Completeness proofs use the renamed `γ` argument.
+- Sobolev Lipschitz proofs use the renamed continuous-linear-equivalence lemma
+  `lipschitzWith`. Both exact repaired proof fragments passed Lean; complete-file
+  validation remains part of CI. See `manifold-lipschitz-validation.json` and
+  `intrinsic-lipschitz-validation.json`.
 - The zero-distance proof uses the separation field of its chosen metric space,
   avoiding the changed implicit arguments of the global lemma.
 - Open-ball membership proofs use their existing metric's symmetry field,

@@ -162,7 +162,7 @@ theorem chart_pou_lip
         exact (toEuclidean (E := E)).symm.continuous.continuousAt.preimage_mem_nhds hs_full
       let D : ℝ≥0 := ‖(toEuclidean (E := E)).symm.toContinuousLinearMap‖₊
       have hto : LipschitzWith D (toEuclidean (E := E)).symm := by
-        simpa only [D] using (toEuclidean (E := E)).symm.lipschitz
+        simpa only [D] using (toEuclidean (E := E)).symm.lipschitzWith
       have hraw : LipschitzOnWith (L * C * D) raw (S ∩ Ω) := by
         intro a ha b hb
         rw [show raw a =
