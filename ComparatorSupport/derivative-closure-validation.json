@@ -1,0 +1,30 @@
+{
+  "scope": "Exact shared proof fragment for the two constant-derivative congruence failures; full file requires CI8 interfaces",
+  "source": "DifferentialGeometry/Analysis/Sobolev/Intrinsic/EquivalenceReverse.lean",
+  "source_sha256": "867874e8eef3a5ec379218a89c6d5cd47cacc359c554e5e92939802576f6e20c",
+  "probe_sha256": "7202ec8ae35db289fac0fb4beb5adf4a35ec74b08ab25bdb679f6787b3e48098",
+  "started_at": "2026-09-19T19:44:09.543447+00:00",
+  "command": [
+    "lean",
+    "-o",
+    "/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/comparator/equivalence-reverse-port/ConstantDerivativeProof.olean",
+    "/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/comparator/equivalence-reverse-port/ConstantDerivativeProof.lean"
+  ],
+  "lean_num_threads": 2,
+  "status": "passed",
+  "pid": 89121,
+  "return_code": 0,
+  "finished_at": "2026-09-19T19:44:32.957311+00:00",
+  "diagnostics": "",
+  "source_unchanged": true,
+  "full_file_validation": "Not attempted: all project dependencies match CI8 source metadata and are compiled, but the transitive Mathlib umbrella artifact is absent. No umbrella fetch or dependency build was performed.",
+  "exact_probe_source": "import Mathlib.Geometry.Manifold.MFDeriv.SpecificFunctions\n\nnoncomputable section\nopen Filter Topology Manifold\nopen scoped Manifold ContDiff\nvariable {E : Type*} [NormedAddCommGroup E] [NormedSpace \u211d E]\nvariable {H : Type*} [TopologicalSpace H] {I : ModelWithCorners \u211d E H}\nvariable {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I \u221e M]\n\nexample {f : M \u2192 \u211d} {x : M} (heqz : f =\u1da0[\ud835\udcdd x] (fun _ : M => (0 : \u211d))) :\n    mfderiv I \ud835\udcd8(\u211d, \u211d) f x = 0 := by\n  simp only [heqz.mfderiv_eq, mfderiv_const, ContinuousLinearMap.comp_zero]\n",
+  "ci_failure": {
+    "run_id": 35464499925,
+    "lines": [
+      651,
+      811
+    ],
+    "reason": "Typeclass inference after rewriting a manifold derivative and applying bare mfderiv_const"
+  }
+}

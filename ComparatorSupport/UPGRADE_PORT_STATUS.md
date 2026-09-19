@@ -22,7 +22,10 @@ The compatibility repairs applied to the original library are:
   reflexivity or explicitly type the derivative equality before rewriting.
   All 121 uses of `.mfderiv_eq` in the solution's project dependency chain were
   reviewed for this change; later CI checks exposed further simplifier-sensitive
-  cases, which use the same explicit equality approach.
+  cases, which use the same explicit equality approach. Two constant-derivative
+  closures additionally simplify the resulting zero composition explicitly;
+  their exact replacement proof passed Lean. See
+  `derivative-closure-validation.json`.
 
 - Uniform-integrability proofs use Mathlib's domination and subsequence lemmas
   for its new limit-based definition. Uniform-tightness calls supply the now

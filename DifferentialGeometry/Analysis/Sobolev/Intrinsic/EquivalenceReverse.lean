@@ -648,7 +648,7 @@ private lemma abs_fderiv_chartSmoothExt_apply_pou_mul_le
           filter_upwards [h_nhds] with y hy
           exact image_eq_zero_of_notMem_tsupport hy
         have h_mfd_eq : mfderiv I 𝓘(ℝ, ℝ) f x = 0 := by
-          rw [heqz.mfderiv_eq]; exact mfderiv_const
+          simp only [heqz.mfderiv_eq, mfderiv_const, ContinuousLinearMap.comp_zero]
         exact DifferentialGeometry.Geometry.Operator.gradFun_eq_zero_of_mfderiv_eq_zero
           g f h_mfd_eq
       have h_grad_f_inner_zero : g.inner x
@@ -808,7 +808,7 @@ private lemma abs_fderiv_chartSmoothExt_apply_pou_mul_le_indicator
         have heqz : f =ᶠ[𝓝 x] (fun _ : M => (0 : ℝ)) := by
           filter_upwards [h_nhds] with y' hy' using image_eq_zero_of_notMem_tsupport hy'
         have h_mfd_eq : mfderiv I 𝓘(ℝ, ℝ) f x = 0 := by
-          rw [heqz.mfderiv_eq]; exact mfderiv_const
+          simp only [heqz.mfderiv_eq, mfderiv_const, ContinuousLinearMap.comp_zero]
         exact DifferentialGeometry.Geometry.Operator.gradFun_eq_zero_of_mfderiv_eq_zero
           g f h_mfd_eq
       have h_sq := sq_fderiv_chartSmoothExt_apply_le_g_inner_mul (I := I) (M := M) g
