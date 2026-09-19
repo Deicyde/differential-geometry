@@ -170,6 +170,7 @@ theorem radialEnorm_framed
   rw [expMapDiffeo_apply_eq (I := I) Y.metric x hsrcRaw]
   dsimp only [dRaw]
   rw [hev.mfderiv_eq]
+  rfl
 
 theorem framedExp_smoothOn
     (Y : PointedRiemannianManifold.{u, uE, uH} (I := I)) (x : Y.M) :

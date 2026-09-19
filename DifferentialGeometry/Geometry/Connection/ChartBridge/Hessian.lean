@@ -905,6 +905,7 @@ theorem hessFun_eq_cov_local [I.Boundaryless]
     filter_upwards [hFf.eventuallyEq_nhds] with y hy
     unfold gradFun
     rw [hy.mfderiv_eq]
+    rfl
   have hgrad_total :
       (T% fun b => gradFun (I := I) g F b) =ᶠ[𝓝 x]
         (T% fun b => gradFun (I := I) g f b) := by

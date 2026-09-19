@@ -199,6 +199,7 @@ theorem radialEnorm_normal
             (show TangentSpace I x from v)) := rfl
   rw [hinner, normalCoordMetric_apply (I := I),
     expMapDiffeo_apply_eq (I := I) Y.metric x hsrc, hev.mfderiv_eq]
+  rfl
 
 omit [NeZero (Module.finrank ℝ E)] in
 private theorem expMapDiffeo_pushforward_section_contMDiffOn
