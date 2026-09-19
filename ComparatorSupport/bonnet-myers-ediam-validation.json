@@ -51,5 +51,12 @@
   "generic_probe_after": "import Mathlib.Topology.EMetricSpace.Diam\nopen scoped ENNReal\nvariable {M : Type*} [TopologicalSpace M] [PseudoEMetricSpace M]\n\nexample {C : \u211d\u22650\u221e} (h : \u2200 x y : M, edist x y \u2264 C) :\n    Metric.ediam (Set.univ : Set M) \u2264 C := by\n  simp only [Metric.ediam, iSup_le_iff]\n  intro x _ y _\n  exact h x y\n\nexample {R : \u211d} (p y : M)\n    (hdiam : Metric.ediam (Set.univ : Set M) \u2264 ENNReal.ofReal R) :\n    edist p y \u2264 ENNReal.ofReal R := by\n  have hedist : edist p y \u2264 ENNReal.ofReal R := by\n    calc\n      edist p y \u2264 Metric.ediam (Set.univ : Set M) :=\n        le_iSup_of_le p (le_iSup_of_le (Set.mem_univ p)\n          (le_iSup_of_le y (le_iSup_of_le (Set.mem_univ y) le_rfl)))\n      _ \u2264 ENNReal.ofReal R := hdiam\n  exact hedist\n",
   "full_file_diagnostics": "",
   "analogous_api_review": "Independent Solution-closure audit found no further ediam helper calls outside Headlines; whole-repository extra calls are outside the Solution closure and use canonical normed metrics.",
-  "local_evidence_directory": ".lake/comparator/bonnet-myers-ediam-port"
+  "local_evidence_directory": ".lake/comparator/bonnet-myers-ediam-port",
+  "subsequent_hosted_build": {
+    "run_id": 35468673412,
+    "commit": "91063128fcd17f0d5b76ec7e3ac5cd7c42ed17d7",
+    "passed": true,
+    "log_line": "\u2714 [9927/10443] Built DifferentialGeometry.Geometry.Comparison.BonnetMyers.Headlines (21s)",
+    "scope": "This module passed; the full run failed later at a missing ring tactic import."
+  }
 }

@@ -13,6 +13,8 @@ The compatibility repairs applied to the original library are:
 
 - The `LevelSetDecay.lean` import now uses `Mathlib.MeasureTheory.Measure.Basic`.
 - `CLMNeumann.lean` explicitly imports continuous-linear-map invertibility.
+- `AntidiagonalTupleProductGrid.lean` explicitly imports the `ring` tactic. The
+  complete file passed Lean; see `antidiagonal-ring-validation.json`.
 - Completeness proofs use the renamed `γ` argument.
 - The zero-distance proof uses the separation field of its chosen metric space,
   avoiding the changed implicit arguments of the global lemma.

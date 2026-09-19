@@ -72,7 +72,7 @@ jobs:
         # Comparator still compares statements, audits axioms, and replays the kernel.
         run: |
           export COMPARATOR_LANDRUN="$PWD/.lake/comparator-tools/v4.34.0-rc2/scripts/fake-landrun.sh"
-          python3 ComparatorSupport/run_comparator.py --stream --fail-fast --threads "$LEAN_NUM_THREADS"
+          python3 ComparatorSupport/run_comparator.py --stream --threads "$LEAN_NUM_THREADS"
 
       - name: Save partial or complete project build progress
         if: always()

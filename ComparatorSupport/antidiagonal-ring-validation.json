@@ -1,0 +1,30 @@
+{
+  "checked_at_utc": "2026-09-19T21:09:39.653453+00:00",
+  "scope": "Complete AntidiagonalTupleProductGrid.lean checked locally; final Solution and official Comparator pass remain pending.",
+  "change": "Add explicit import Mathlib.Tactic.Ring for the existing ring tactic calls.",
+  "only_added_import": true,
+  "proofs_statements_and_hypotheses_unchanged": true,
+  "validation": {
+    "scope": "Complete AntidiagonalTupleProductGrid.lean direct Lean validation against cached Mathlib imports; not a full Solution build or Comparator pass.",
+    "source": "DifferentialGeometry/Analysis/Sobolev/AntidiagonalTupleProductGrid.lean",
+    "source_sha256": "0bb5e03992cabb207b49142477f9a16ce9a1c004a558569920dff060de715e62",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/Users/jack/Desktop/LEAN/differential-geometry-updated/DifferentialGeometry/Analysis/Sobolev/AntidiagonalTupleProductGrid.lean",
+      "-o",
+      "/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/comparator/antidiagonal-ring-port/AntidiagonalTupleProductGrid.olean"
+    ],
+    "return_code": 0,
+    "status": "passed",
+    "elapsed_seconds": 13.02,
+    "lean_num_threads": 2,
+    "heartbeat_override": false,
+    "source_unchanged": true,
+    "checked_at": "2026-09-19T21:08:53.665251+00:00"
+  },
+  "diagnostics": "",
+  "toolchain": "leanprover/lean4:v4.34.0-rc2",
+  "local_evidence_directory": ".lake/comparator/antidiagonal-ring-port"
+}
