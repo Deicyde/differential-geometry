@@ -322,6 +322,7 @@ private theorem mvfderiv_congr_eventually
   have hx : f x = g x := h.eq_of_nhds
   unfold mvfderiv
   rw [hmf, hx]
+  rfl
 
 omit [IsManifold I (⊤ : WithTop ℕ∞) M] [CompleteSpace Real] in
 omit [IsManifold I 2 M] in

@@ -77,7 +77,7 @@ theorem of_lower
     exact edistOf_mono (I := I) _ _ (by
       intro z v
       simpa only [scaleMetric_inner] using hlower z v) x y
-  refine EMetric.complete_of_cauchySeq_tendsto (α := M) fun s hs => ?_
+  refine EMetric.complete_of_cauchySeq_tendsto (γ := M) fun s hs => ?_
   have hsTarget : ∀ ε > (0 : ENNReal), ∃ N,
       ∀ m, N ≤ m → ∀ n, N ≤ n →
         riemannianEDistOf (I := I) h (s m) (s n) < ε := by
@@ -143,7 +143,7 @@ theorem of_uniformEquiv
     exact edistOf_mono (I := I) _ _ (by
       intro z v
       simpa only [scaleMetric_inner] using (hcomp z v).1) x y
-  refine EMetric.complete_of_cauchySeq_tendsto (α := M) fun s hs => ?_
+  refine EMetric.complete_of_cauchySeq_tendsto (γ := M) fun s hs => ?_
   have hsTarget : ∀ ε > (0 : ENNReal), ∃ N,
       ∀ m, N ≤ m → ∀ n, N ≤ n →
         riemannianEDistOf (I := I) h (s m) (s n) < ε := by

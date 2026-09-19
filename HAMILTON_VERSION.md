@@ -28,6 +28,11 @@ validation; they are not yet certified by Comparator.
   Comparator checks are incomplete.
 - `Analysis/Integration/Measure/LevelSetDecay.lean` changes only an import path from
   the removed Mathlib `MeasureSpace` module to its replacement `Basic` module.
+- The first hosted Comparator attempt exposed further Mathlib compatibility
+  changes. The repairs add an explicit invertibility import, close derivative-cast
+  equalities by reflexivity, and update a completeness lemma's named argument.
+  They preserve the original theorem statements. That attempt was cancelled after
+  compilation errors; its partial build cache is retained for the next run.
 
 See `ComparatorSupport/README.md` for the actual pair configuration and reproducible
 Comparator command. `ComparatorSupport/UPGRADE_PORT_STATUS.md` records the earlier

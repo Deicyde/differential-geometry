@@ -65,6 +65,7 @@ private theorem directionalDeriv_congr_nhds
   unfold directionalDerivAlong mvfderiv
   rw [hfh.mfderiv_eq]
   rw [hx]
+  rfl
 
 omit [CompleteSpace E] [IsManifold I ∞ M] [IsManifold I 1 M] [IsManifold I 2 M] [IsManifold I 3 M]
     [SigmaCompactSpace M] [T2Space M] in

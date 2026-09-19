@@ -7,7 +7,9 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
+import signal
 import subprocess
 import sys
 
@@ -20,6 +22,8 @@ def main():
     parser.add_argument("--tools", type=Path,
                         default=root / ".lake/comparator-tools" / version)
     parser.add_argument("--stream", action="store_true", help="Also print the log for CI")
+    parser.add_argument("--fail-fast", action="store_true",
+                        help="Stop this run on a reported build error, preserving completed artifacts")
     args = parser.parse_args()
     tools = args.tools.resolve()
     comparator = tools / ".lake/build/bin/comparator"
@@ -28,6 +32,8 @@ def main():
     if launcher is None:
         launcher = (str(tools / "scripts/fake-landrun.sh") if sys.platform == "darwin"
                     else shutil.which("landrun"))
+    elif not Path(launcher).is_file():
+        launcher = shutil.which(launcher)
     lake = shutil.which("lake")
     if not lake or not launcher:
         parser.error("lake and a Comparator launcher must be available")
@@ -65,7 +71,8 @@ def main():
         "lean4export_revision": revision(tools / ".lake/packages/lean4export"),
         "project_revision": revision(root), "lean_num_threads": 2,
         "heartbeat_override": False, "status": "starting",
-        "launcher": ("official macOS development launcher; no Linux sandbox isolation"
+        "platform": sys.platform,
+        "launcher": ("official development launcher; no OS sandbox isolation"
                      if Path(launcher).name == "fake-landrun.sh" else launcher),
         "input_sha256": hashes(), "wrapper_pid": os.getpid(),
     }
@@ -79,16 +86,27 @@ def main():
     (root / ".lake/comparator/latest-run.txt").write_text(str(output) + "\n")
     print(f"Comparator evidence: {output}", flush=True)
     with (output / "run.log").open("w") as log:
+        capture = args.stream or args.fail_fast
         process = subprocess.Popen(command, cwd=root, env=env,
-                                   stdout=subprocess.PIPE if args.stream else log,
-                                   stderr=subprocess.STDOUT, text=True)
+                                   stdout=subprocess.PIPE if capture else log,
+                                   stderr=subprocess.STDOUT, text=True, start_new_session=True)
         metadata.update(pid=process.pid, status="running")
         save()
-        if args.stream:
+        if capture:
             for line in process.stdout:
                 log.write(line)
                 log.flush()
-                print(line, end="", flush=True)
+                if args.stream:
+                    print(line, end="", flush=True)
+                plain = re.sub(r"\x1b\[[0-9;]*m", "", line).lstrip()
+                if (args.fail_fast and "stopped_on_build_error" not in metadata
+                        and (plain.startswith("error:") or plain.startswith("✖ "))):
+                    metadata["stopped_on_build_error"] = plain.strip()
+                    save()
+                    try:
+                        os.killpg(process.pid, signal.SIGTERM)
+                    except ProcessLookupError:
+                        pass
         metadata["return_code"] = process.wait()
     metadata["finished_at"] = datetime.now(timezone.utc).isoformat()
     metadata["final_input_sha256"] = hashes()
@@ -101,7 +119,7 @@ def main():
     metadata["status"] = "passed" if passed else "completed_without_pass"
     save()
     print(f"Comparator: {metadata['status']}; log: {output / 'run.log'}", flush=True)
-    return 0 if passed else metadata["return_code"] or 1
+    return 0 if passed else max(1, metadata["return_code"])
 
 
 if __name__ == "__main__":

@@ -58,11 +58,12 @@ jobs:
           test "$(git -C .lake/packages/lean4export rev-parse HEAD)" = cacf989bd75f608700820f6afc595f32e7a99a4d
 
       - name: Check the Hamilton pair
+        timeout-minutes: 330
         # Trusted repository code: official development launcher, without OS sandbox.
         # Comparator still compares statements, audits axioms, and replays the kernel.
         run: |
           export COMPARATOR_LANDRUN="$PWD/.lake/comparator-tools/v4.34.0-rc2/scripts/fake-landrun.sh"
-          python3 ComparatorSupport/run_comparator.py --stream
+          python3 ComparatorSupport/run_comparator.py --stream --fail-fast
 
       - name: Save partial or complete project build progress
         if: always()
@@ -79,3 +80,14 @@ jobs:
           path: .lake/comparator/
           include-hidden-files: true
           if-no-files-found: ignore
+
+      - name: Upload partial build for diagnosing failures
+        if: failure() || cancelled()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: hamilton-partial-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .lake/build/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          compression-level: 1
+          retention-days: 3

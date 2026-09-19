@@ -306,4 +306,5 @@ theorem oneForm_mvfderiv_congr_eventually
   have hx : f x = g x := h.eq_of_nhds
   unfold mvfderiv
   rw [hmf, hx]
+  rfl
 end DifferentialGeometry.Tensor.Coordinates

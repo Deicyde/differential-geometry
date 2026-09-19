@@ -562,6 +562,7 @@ private lemma mvfderiv_pairing_chartBasisVec_apply_basis
   have hmvfderiv : mvfderiv (I := I) scalarAlong x = mvfderiv (I := I) g x := by
     unfold mvfderiv
     rw [hev.self_of_nhds, Filter.EventuallyEq.mfderiv_eq hev]
+    rfl
   rw [hmvfderiv]
   exact hg_value
 
