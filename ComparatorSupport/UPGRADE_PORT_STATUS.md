@@ -1,46 +1,19 @@
-# Mathlib upgrade status
+# Mathlib upgrade validation
 
-Snapshot: 2026-09-19 17:02 UTC.
+Updated: 2026-09-19 17:17 UTC.
 
-- Upstream base: `4fbccdfc73f986ce59d7bb66e8bb078f8007ffe2`.
-- Mathlib: `769b0a5ad45c8d886c754c0be19835b908f98dcb`.
-- Lean: `leanprover/lean4:v4.34.0-rc2`.
+The repository uses Mathlib commit `769b0a5ad45c8d886c754c0be19835b908f98dcb` and Lean `v4.34.0-rc2`, based on upstream differential-geometry commit `4fbccdf`.
 
-## Validation recorded so far
+**The full Hamilton dependency build and Comparator validation are pending.** The current dependency build has completed 23 additional project modules without errors. An earlier interface build completed 27 modules; neither partial build establishes a successful port. Latest completed module: `DifferentialGeometry.Tensor.RSTensor.Components (41s)`.
 
-A targeted build of the following interfaces compiled 27 project modules with no
-recorded errors before this snapshot:
+The compatibility change currently applied to the existing library is the `LevelSetDecay.lean` import from `Mathlib.MeasureTheory.Measure.MeasureSpace` to `Mathlib.MeasureTheory.Measure.Basic`. No mathematical statements or assumptions have been changed for the upgrade.
 
-- `DifferentialGeometry.Geometry.Curvature.MetricConditions`
-- `DifferentialGeometry.Geometry.Metric.Sphere.SpaceForm`
+A source-path check found that all 18,202 direct Mathlib/project imports across 3,931 project files resolve. This checks file availability only and does not replace Lean typechecking. Deprecation warnings for `if_neg` and `dif_pos` have appeared; they are not build failures.
 
-These targets reach 481 project modules. Their build is **incomplete**. The last
-recorded success is `DifferentialGeometry.Tensor.RSTensor.CoordinateBasis`.
-The previous build process is no longer present, and no final exit status was
-available. This is not a successful port or full-build result.
-
-The only existing library source change is an import in
-`Analysis/Integration/Measure/LevelSetDecay.lean`, replacing Mathlib's removed
-`MeasureSpace` module with `Basic`.
-
-Challenge and generic connection-bridge validation are documented separately in
-`LEVI_CIVITA_STATUS.md` and `validation.json`. The final Hamilton bridge, Solution,
-and Comparator pass are still outstanding.
-
-## Resume the port
-
-From the repository root, after checking that no equivalent build is running:
+To build the original Hamilton proof with bounded compiler concurrency:
 
 ```sh
-env LEAN_NUM_THREADS=2 lake build DifferentialGeometry.Geometry.Curvature.MetricConditions DifferentialGeometry.Geometry.Metric.Sphere.SpaceForm
+LEAN_NUM_THREADS=2 lake build DifferentialGeometry.Geometry.Flow.RicciFlow.DimensionThree.PositiveRicci.Hamilton
 ```
 
-Diagnose actual upgrade errors with the Lean language server and narrow source
-edits. Preserve theorem statements and mathematical assumptions. Do not add proof
-holes, custom axioms, heartbeat overrides, or unchecked declarations to proofs.
-
-Once the original connection, Riemann, metric-condition, and space-form interfaces
-are available, instantiate the generic lemmas in `LeviCivita.lean` as described in
-`LEVI_CIVITA_STATUS.md`. Then complete the Hamilton solution and run Comparator.
-The prepared configuration is `comparator.draft.json`; it is not runnable until
-`Solution.lean` exists and the pair is complete.
+The upstream base already includes PR #78 addressing the curvature-jet kernel cost. That proof should be preserved when resolving upgrade errors. All repairs must retain the original mathematical statements and assumptions, without proof holes, custom axioms, heartbeat overrides, or kernel-checking bypasses.

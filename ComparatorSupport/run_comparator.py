@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+"""Run official Comparator and record its verdict and unchanged-input evidence."""
+
+import argparse
+from datetime import datetime, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+
+
+def main():
+    root = Path(__file__).resolve().parent.parent
+    toolchain = (root / "lean-toolchain").read_text().strip()
+    version = toolchain.split(":")[-1]
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--tools", type=Path,
+                        default=root / ".lake/comparator-tools" / version)
+    parser.add_argument("--stream", action="store_true", help="Also print the log for CI")
+    args = parser.parse_args()
+    tools = args.tools.resolve()
+    comparator = tools / ".lake/build/bin/comparator"
+    exporter = tools / ".lake/packages/lean4export/.lake/build/bin/lean4export"
+    launcher = os.environ.get("COMPARATOR_LANDRUN")
+    if launcher is None:
+        launcher = (str(tools / "scripts/fake-landrun.sh") if sys.platform == "darwin"
+                    else shutil.which("landrun"))
+    lake = shutil.which("lake")
+    if not lake or not launcher:
+        parser.error("lake and a Comparator launcher must be available")
+    for path in (comparator, exporter, Path(launcher)):
+        if not path.is_file():
+            parser.error(f"Required executable missing: {path}")
+    for name in ("Challenge.lean", "Solution.lean", "comparator.json"):
+        if not (root / name).is_file():
+            parser.error(f"Required project input missing: {name}")
+
+    def hashes():
+        paths = sorted(set(root.glob("*.lean")) |
+                       set((root / "DifferentialGeometry").rglob("*.lean")) |
+                       set((root / "ComparatorSupport").rglob("*.lean")) |
+                       {root / name for name in (
+                           "comparator.json", "lakefile.toml", "lake-manifest.json",
+                           "lean-toolchain")})
+        return {str(path.relative_to(root)): hashlib.sha256(path.read_bytes()).hexdigest()
+                for path in paths}
+
+    def revision(directory):
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=directory, text=True).strip()
+
+    started = datetime.now(timezone.utc)
+    output = root / ".lake/comparator" / started.strftime("%Y-%m-%dT%H%M%S.%fZ")
+    output.mkdir(parents=True, exist_ok=False)
+    command = [lake, "env", str(comparator), "comparator.json"]
+    env = os.environ.copy()
+    env.update(LC_ALL="C", LEAN_NUM_THREADS="2", ELAN_TOOLCHAIN=toolchain,
+               COMPARATOR_LANDRUN=launcher, COMPARATOR_LEAN4EXPORT=str(exporter))
+    metadata = {
+        "started_at": started.isoformat(), "toolchain": toolchain,
+        "comparator_revision": revision(tools),
+        "lean4export_revision": revision(tools / ".lake/packages/lean4export"),
+        "project_revision": revision(root), "lean_num_threads": 2,
+        "heartbeat_override": False, "status": "starting",
+        "launcher": ("official macOS development launcher; no Linux sandbox isolation"
+                     if Path(launcher).name == "fake-landrun.sh" else launcher),
+        "input_sha256": hashes(), "wrapper_pid": os.getpid(),
+    }
+
+    def save():
+        temporary = output / "metadata.json.tmp"
+        temporary.write_text(json.dumps(metadata, indent=2) + "\n")
+        temporary.replace(output / "metadata.json")
+
+    save()
+    (root / ".lake/comparator/latest-run.txt").write_text(str(output) + "\n")
+    print(f"Comparator evidence: {output}", flush=True)
+    with (output / "run.log").open("w") as log:
+        process = subprocess.Popen(command, cwd=root, env=env,
+                                   stdout=subprocess.PIPE if args.stream else log,
+                                   stderr=subprocess.STDOUT, text=True)
+        metadata.update(pid=process.pid, status="running")
+        save()
+        if args.stream:
+            for line in process.stdout:
+                log.write(line)
+                log.flush()
+                print(line, end="", flush=True)
+        metadata["return_code"] = process.wait()
+    metadata["finished_at"] = datetime.now(timezone.utc).isoformat()
+    metadata["final_input_sha256"] = hashes()
+    metadata["inputs_unchanged"] = metadata["input_sha256"] == metadata["final_input_sha256"]
+    log_text = (output / "run.log").read_text(errors="replace")
+    metadata["success_marker_found"] = "Your solution is okay!" in log_text
+    metadata["kernel_acceptance_found"] = "Lean default kernel accepts the solution" in log_text
+    passed = (metadata["return_code"] == 0 and metadata["inputs_unchanged"]
+              and metadata["success_marker_found"] and metadata["kernel_acceptance_found"])
+    metadata["status"] = "passed" if passed else "completed_without_pass"
+    save()
+    print(f"Comparator: {metadata['status']}; log: {output / 'run.log'}", flush=True)
+    return 0 if passed else metadata["return_code"] or 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

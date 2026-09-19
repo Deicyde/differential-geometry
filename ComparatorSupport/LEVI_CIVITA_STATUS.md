@@ -1,9 +1,9 @@
 # Upgraded Hamilton challenge: Levi-Civita checkpoint
 
-## Saved and validated
+## Initial checkpoint: statement and generic helpers
 
 - `Challenge.lean` (245 lines) imports only Mathlib. It now uses Mathlib's actual `CovariantDerivative.leviCivitaConnection` with the explicitly supplied smooth metric. Full live Lean check completed successfully (`partial=false`); its sole diagnostic is the intended final target `sorry` at line 242.
-- `HamiltonDefinitions.lean` (230 lines) contains the identical import and definition block, byte for byte. Its dedicated live Lean check is still pending at this checkpoint, with no diagnostics or failed dependencies. The same complete block already passed within `Challenge.lean`.
+- `HamiltonDefinitions.lean` (230 lines) contains the identical import and definition block, byte for byte. Its dedicated live Lean check was pending at the initial checkpoint, with no diagnostics or failed dependencies. The same complete block passed within `Challenge.lean`, and the resumed work below subsequently built `HamiltonDefinitions.olean` successfully.
 - `ComparatorSupport/LeviCivita.lean` (168 lines) imports only Mathlib and contains proved generic comparison lemmas. Its full live Lean check completed successfully (`partial=false`) with **zero diagnostics**, no failed dependencies, and no proof holes. The file is tracked by the existing `/ComparatorSupport/` whitelist in `.gitignore`.
 - Machine-readable evidence and SHA-256 hashes: `validation.json`.
 
@@ -29,9 +29,9 @@ The support module deliberately uses its own namespace and includes its own smal
 
 A relevant upgrade change was caught and handled: `Trivialization.symm` now uses `Classical.arbitrary` outside its chart, while `symmL` still uses zero. Their global equality is false in general. The proved bridge uses only equality on a neighborhood, which is all curvature needs.
 
-## Concrete bridge still required
+## Concrete bridge implementation awaiting validation
 
-Once the original interface build is available, instantiate the generic connection lemma with:
+The resumed `HamiltonBridge.lean` candidate instantiates the generic connection lemma with:
 
 - `DifferentialGeometry.Geometry.Connection.leviCivitaConnectionOfMetric`;
 - `leviCivitaConnectionOfMetric_isMetricCompatible`;
@@ -39,11 +39,20 @@ Once the original interface build is available, instantiate the generic connecti
 
 These original compatibility and torsion predicates have exactly the raw equations accepted by the checked generic lemma. The compatibility conversion uses `CovariantDerivative.isMetricCompatible_iff`; the torsion conversion is function extensionality.
 
-For the iterated derivative hypothesis, use the original:
+For the iterated derivative hypothesis, the candidate uses the original:
 
 - `DifferentialGeometry.Geometry.Curvature.CovariantDerivative.cov_tangentConst_apply_mdiffAt_self`;
 - `DifferentialGeometry.Geometry.Connection.leviCivitaConnectionOfMetric_contMDiffCovariantDerivativeLocally`.
 
-Then transfer the Riemann and Ricci values and their positivity/constant-curvature predicates, adapting the previous `HamiltonBridge.lean` proof. This derives the needed local regularity from the old proved smooth connection; it does not assume a new Mathlib LC smoothness result.
+The candidate transfers the Riemann and Ricci values and their positivity/constant-curvature predicates, adapting the previous `HamiltonBridge.lean` proof. Its local regularity comes from the old proved smooth connection; it does not assume a new Mathlib LC smoothness result. These concrete instantiations still require validation after the original interfaces finish building.
 
-The recorded original-interface build is incomplete. See `UPGRADE_PORT_STATUS.md` before resuming it. No concrete original-to-updated curvature bridge or Hamilton solution was added with unverified proof holes. Final solution import scope still requires the user's clarification. No Comparator pass is claimed for this upgraded version.
+The upgraded original-library build is incomplete. See `UPGRADE_PORT_STATUS.md` for the current build state. The resumed request authorizes a solution importing the original Hamilton theorem. The saved bridge and solution contain no proof holes, but their full check and the Comparator verdict remain pending.
+
+
+## Resumed solution work
+
+The user has requested a passing upgraded Solution. `HamiltonBridge.lean` now has a complete proof candidate for the original connection and curvature comparison, including a two-way equivalence of the full statements. `Solution.lean` (19 lines) imports the original Hamilton theorem and applies that bridge. Neither file contains a proof hole; they are **not yet claimed checked** because the upgraded original interfaces and Hamilton dependency graph are still compiling in the single port build.
+
+`ComparatorSupport/DefinitionAgreement.lean` passed a complete live Lean check with zero diagnostics. It proves by reflexivity that the challenge's connection, tangent extension, and Riemann formula coincide with the generic support definitions. The LSP setup also successfully built `HamiltonDefinitions.olean` and `ComparatorSupport/LeviCivita.olean`.
+
+No challenge statement, hypothesis, or shared definition was changed in this resumed work. The final Comparator verdict remains pending. See the refreshed `validation.json` for per-file evidence.

@@ -1,0 +1,25 @@
+{
+  "scope": "Exact statement closure only; not a Hamilton proof audit or full Comparator pass",
+  "root": "HamiltonPointwise.HamiltonStatement",
+  "method": "Official Comparator.runForUsedConsts and Comparator.Compare.loop against independently imported compiled environments; no theorem or definition exemptions",
+  "status": "passed",
+  "comparator_revision": "19e111e2141cf333c7daff0f64c5f24acc91dd2e",
+  "lean_version": "Lean (version 4.34.0-rc2, arm64-apple-darwin24.6.0, commit 6a10ac8c22beadecabdbb0919c2b50214762f91d, Release)",
+  "files": {
+    "Challenge.lean": "03f9b6d407eab42da62cec0d3d5b788345a39fc17867b44513aed12592d6d07f",
+    "HamiltonDefinitions.lean": "1bca2a809ab0945c94431efd3d2b96caa99b397d0cc68e7adbda13f0061d823d",
+    ".lake/build/lib/lean/Challenge.olean": "565ca01ec9095e495ed602dbbed8c6e33867107cd1df5091215567a5690ab988",
+    ".lake/build/lib/lean/HamiltonDefinitions.olean": "c8feb84b788f68b5960c63a416a15b8ccac71417bd42f0296de587f372239a28",
+    ".lake/comparator/statement-preflight/StrictStatementClosure.lean": "97bfe8450320b11c606c851dca8830a22584ec1e7364f44147de8fd43c7a5016"
+  },
+  "heartbeat_override": false,
+  "memory_override": false,
+  "threads": 2,
+  "build_challenge_exit_code": 0,
+  "build_challenge_warning": "Only the intended hamilton_positive_ricci theorem placeholder",
+  "timestamp": "2026-09-19T17:15:28.080921+00:00",
+  "exit_code": 0,
+  "checked_constants": 37653,
+  "completed_at": "2026-09-19T17:16:03.863002+00:00",
+  "source_hashes_unchanged": true
+}

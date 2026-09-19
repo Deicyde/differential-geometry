@@ -1,0 +1,81 @@
+name: Hamilton Comparator
+
+on:
+  push:
+    branches: [codex/hamilton-mathlib-levicivita]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hamilton-comparator-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  comparator:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      LEAN_NUM_THREADS: 2
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install the pinned Lean toolchain
+        run: |
+          curl --fail --location https://raw.githubusercontent.com/leanprover/elan/0e36a07b9bbcc5381fa6250df109f9a4f94d7bac/elan-init.sh -o /tmp/elan-init.sh
+          sh /tmp/elan-init.sh -y --default-toolchain "$(cat lean-toolchain)"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        id: project-cache
+        with:
+          path: .lake/build
+          key: hamilton-linux-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            hamilton-linux-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+
+      - name: Fetch the required Mathlib cache
+        run: |
+          lake env true
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, subprocess
+          paths = list(Path('DifferentialGeometry').rglob('*.lean'))
+          paths += list(Path('ComparatorSupport').rglob('*.lean'))
+          paths += list(Path('.').glob('*.lean'))
+          modules = sorted({m for p in paths for m in re.findall(
+              r'^(?:public\s+)?import\s+(Mathlib[\w.]*)', p.read_text(), re.M)})
+          subprocess.run(['lake', 'exe', 'cache', 'get', *modules], check=True)
+          PY
+
+      - name: Build official Comparator and exporter
+        run: |
+          git clone --depth 1 --branch v4.34.0-rc2 https://github.com/leanprover/comparator.git .lake/comparator-tools/v4.34.0-rc2
+          cd .lake/comparator-tools/v4.34.0-rc2
+          test "$(git rev-parse HEAD)" = 19e111e2141cf333c7daff0f64c5f24acc91dd2e
+          lake build lean4export comparator
+          test "$(git -C .lake/packages/lean4export rev-parse HEAD)" = cacf989bd75f608700820f6afc595f32e7a99a4d
+
+      - name: Check the Hamilton pair
+        # Trusted repository code: official development launcher, without OS sandbox.
+        # Comparator still compares statements, audits axioms, and replays the kernel.
+        run: |
+          export COMPARATOR_LANDRUN="$PWD/.lake/comparator-tools/v4.34.0-rc2/scripts/fake-landrun.sh"
+          python3 ComparatorSupport/run_comparator.py --stream
+
+      - name: Save partial or complete project build progress
+        if: always()
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .lake/build
+          key: ${{ steps.project-cache.outputs.cache-primary-key }}
+
+      - name: Upload Comparator evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: hamilton-comparator-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .lake/comparator/
+          include-hidden-files: true
+          if-no-files-found: ignore

@@ -24,3 +24,12 @@ name = "Challenge"
 
 [[lean_lib]]
 name = "HamiltonDefinitions"
+
+[[lean_lib]]
+name = "ComparatorSupport"
+
+[[lean_lib]]
+name = "HamiltonBridge"
+
+[[lean_lib]]
+name = "Solution"

@@ -1,5 +1,5 @@
 {
-  "timestamp_utc": "2026-09-19T16:52:02.771799+00:00",
+  "timestamp_utc": "2026-09-19T17:13:23.289071+00:00",
   "files": {
     "Challenge.lean": {
       "lines": 245,
@@ -12,6 +12,18 @@
     "ComparatorSupport/LeviCivita.lean": {
       "lines": 168,
       "sha256": "a27dba2e4be89776eb7c1600101271bb43ed04245dd39f707812a54ad5e35611"
+    },
+    "HamiltonBridge.lean": {
+      "lines": 258,
+      "sha256": "a4a8a4d267bbd98cc794d28ca444b6062ef07830b792c7cc22abb82bc826e3bb"
+    },
+    "Solution.lean": {
+      "lines": 19,
+      "sha256": "d7e4c4c4e35203926c6c52787da2f507aca9222c3ec66a1ee82eaa722449698a"
+    },
+    "ComparatorSupport/DefinitionAgreement.lean": {
+      "lines": 26,
+      "sha256": "c9b25e973701368b965a8aec0b835595c3c7b6f569f3e36913aa2c4a20060f13"
     }
   },
   "shared_definition_block_identical": true,
@@ -37,7 +49,16 @@
     "failed_dependencies": [],
     "diagnostics": []
   },
-  "concrete_original_curvature_bridge": "not yet instantiated; original interface build incomplete",
-  "hamilton_solution": "not produced; original proof bridge and import-scope decision pending",
-  "comparator": "not run for updated pair"
+  "concrete_original_curvature_bridge": "Complete proof candidate saved in HamiltonBridge.lean; original interface dependency build pending, so not yet checked",
+  "hamilton_solution": "Solution.lean imports original Hamilton and applies bridge; pending upgraded original Hamilton build and concrete bridge check",
+  "comparator": "not run for updated pair",
+  "definition_agreement_lsp": {
+    "partial": false,
+    "success": true,
+    "failed_dependencies": [],
+    "diagnostics": []
+  },
+  "shared_definitions_build": "HamiltonDefinitions.olean built by LSP dependency setup for DefinitionAgreement",
+  "generic_helpers_build": "ComparatorSupport/LeviCivita.olean built by LSP dependency setup for DefinitionAgreement",
+  "statement_equivalence": "Bidirectional proof candidate in HamiltonBridge.lean; not yet verified"
 }
