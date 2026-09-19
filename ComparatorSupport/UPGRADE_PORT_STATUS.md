@@ -18,13 +18,16 @@ The compatibility repairs applied to the original library are:
   avoiding the changed implicit arguments of the global lemma.
 - Open-ball membership proofs use their existing metric's symmetry field,
   avoiding ambiguous topology inference in the generalized Mathlib lemma.
+- Diameter-bound proofs unfold the supremum definition directly, avoiding the
+  topology requirements added to the generalized Mathlib helper lemmas. The complete
+  Bonnet–Myers headlines file passed Lean; see `bonnet-myers-ediam-validation.json`.
 - Derivative congruence proofs account for the new tangent-space cast compositions.
   They use explicit derivative equalities before structural rewriting, or simplify
   the remaining zero composition directly. The two Sobolev constant-derivative
   repairs passed full-file CI validation; see `derivative-closure-validation.json`.
   The conjugating-flow variation repair passed a complete Lean check against
-  source-matched interfaces; see `variation-validation.json`.
-
+  source-matched interfaces and the subsequent hosted build; see
+  `variation-validation.json`.
 - Uniform-integrability proofs use Mathlib's domination and subsequence lemmas
   for its new limit-based definition. Uniform-tightness calls supply the now
   explicit bound. Exact edited proof blocks passed Lean; full-file validation

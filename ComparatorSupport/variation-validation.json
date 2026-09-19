@@ -1,6 +1,6 @@
 {
   "checked_at_utc": "2026-09-19T20:19:23.637262+00:00",
-  "scope": "Complete Variation.lean checked against source-matched CI9 interfaces; final Solution and Comparator remain pending.",
+  "scope": "Complete Variation.lean passed bounded local Lean validation and the subsequent hosted build; final Solution and Comparator remain pending.",
   "full_file": {
     "scope": "Bounded direct full-file Lean validation using read-only source-matched CI9 dependency artifacts; not a Comparator pass.",
     "source": "DifferentialGeometry/Geometry/Flow/RicciFlow/ShortTime/ConjugatingFlow/Variation.lean",
@@ -40,5 +40,13 @@
     "lean_num_threads": 2,
     "heartbeat_override": false,
     "checked_at": "2026-09-19T20:16:52.764147+00:00"
+  },
+  "hosted_build": {
+    "run_id": 35467030120,
+    "commit": "5faf4032c8031aae566ea1393eb7bbad7a159d80",
+    "passed": true,
+    "seconds": 14,
+    "source_sha256": "a67dcc9cb1c245d24c4bd457ee13c3f2664c73d9af1bf915655c3d883f84d462",
+    "scope": "This module passed; the full Comparator run failed later at BonnetMyers.Headlines."
   }
 }

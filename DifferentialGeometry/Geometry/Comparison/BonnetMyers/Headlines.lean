@@ -540,7 +540,7 @@ theorem bonnet_myers_diameter_of_ricci_bound
     (hEnorm : IsMetricNorm (I := I) (M := M) g) :
     Metric.ediam (Set.univ : Set M) ≤
       ENNReal.ofReal (Real.pi / Real.sqrt K) := by
-  refine Metric.ediam_le ?_
+  simp only [Metric.ediam, iSup_le_iff]
   intro x _ y _
   exact bonnet_myers_pairwise_edist_le_of_ricci_bound (E := E) g hdim hK hRic hEnorm x y
 
@@ -686,8 +686,12 @@ theorem expMapIntrinsic_surjective_on_closedBall_of_ediam_le
     have hz := hEnorm p v
     rw [← ofReal_norm] at hz
     exact (ENNReal.ofReal_eq_ofReal_iff (norm_nonneg v) (Real.sqrt_nonneg _)).mp hz
-  have hedist : edist p y ≤ ENNReal.ofReal R :=
-    le_trans (Metric.edist_le_ediam_of_mem (Set.mem_univ p) (Set.mem_univ y)) hdiam
+  have hedist : edist p y ≤ ENNReal.ofReal R := by
+    calc
+      edist p y ≤ Metric.ediam (Set.univ : Set M) :=
+        le_iSup_of_le p (le_iSup_of_le (Set.mem_univ p)
+          (le_iSup_of_le y (le_iSup_of_le (Set.mem_univ y) le_rfl)))
+      _ ≤ ENNReal.ofReal R := hdiam
   have hre : riemannianEDist I p y = edist p y := (IsRiemannianManifold.out (I := I) p y).symm
   rw [hnorm, hv_len, hre]
   calc (edist p y).toReal
