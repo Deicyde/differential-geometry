@@ -68,3 +68,7 @@ After the single local port build refreshed the same interfaces, the complete li
 ## Exact curvature predicate checks
 
 Once `MetricConditions` became available, the full curvature section was copied verbatim from `HamiltonBridge.lean` into a bounded standalone probe and checked against the actual original metric aliases. All six theorems passed: the four concrete connection/curvature equalities and both positive-Ricci/constant-positive-sectional-curvature equivalences. Each has exactly the three permitted axioms. The source of `HamiltonBridge.lean` remains unchanged. `curvature-predicates-validation.json` preserves the exact tested source, source/artifact hashes, successful exits, and complete axiom output. Quotient and full-statement packaging and the final Solution/Comparator pass remain pending.
+
+## Exact quotient conversion checks
+
+The four `SectionWitness` and `RoundQuotientData` conversion definitions were copied verbatim from `HamiltonBridge.lean` and checked against the original `QuotientDescent` interface. Both directions passed with exit code zero and no diagnostics. Exact source and artifact hashes are saved in `quotient-bridge-validation.json`. No bridge source change was required. The final spherical-space-form/full-statement packaging and complete Solution/Comparator validation remain pending.

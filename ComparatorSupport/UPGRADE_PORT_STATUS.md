@@ -19,8 +19,10 @@ The compatibility repairs applied to the original library are:
 - Open-ball membership proofs use their existing metric's symmetry field,
   avoiding ambiguous topology inference in the generalized Mathlib lemma.
 - Derivative congruence proofs close the new tangent-space cast equalities by
-  reflexivity. All 121 uses of `.mfderiv_eq` in the solution's project dependency
-  chain were reviewed for this change.
+  reflexivity or explicitly type the derivative equality before rewriting.
+  All 121 uses of `.mfderiv_eq` in the solution's project dependency chain were
+  reviewed for this change; later CI checks exposed further simplifier-sensitive
+  cases, which use the same explicit equality approach.
 
 These repairs preserve mathematical statements and assumptions. The concrete
 Levi-Civita, Riemann, sectional-curvature, and Ricci comparison proofs passed a

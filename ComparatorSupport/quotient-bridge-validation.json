@@ -1,0 +1,22 @@
+{
+  "checked_at_utc": "2026-09-19T18:51:42.701631+00:00",
+  "toolchain": "leanprover/lean4:v4.34.0-rc2",
+  "mathlib_revision": "769b0a5ad45c8d886c754c0be19835b908f98dcb",
+  "tested_source_file": ".lake/QuotientBridgeProbe.lean",
+  "source_sha256": "c7c1df42349b25f9fb307255895023186d25933ae0f902a0f1e7a92ea3e100de",
+  "exact_tested_source": "import HamiltonDefinitions\nimport DifferentialGeometry.Geometry.Metric.Sphere.QuotientDescent\n\nset_option autoImplicit false\n\nnamespace HamiltonPointwise\n\nnoncomputable section\n\nopen scoped Manifold ContDiff\n\nuniverse uE uQ\n\nvariable {E : Type uE} [NormedAddCommGroup E] [InnerProductSpace ℝ E]\nvariable [FiniteDimensional ℝ E]\nvariable {n : ℕ} [Fact (Module.finrank ℝ E = n + 1)] [NeZero n]\n\ndef SectionWitness.ofOriginal\n    {Q : Type uQ} [TopologicalSpace Q] [ChartedSpace (EuclideanSpace ℝ (Fin n)) Q]\n    [IsManifold (𝓡 n) ∞ Q]\n    {proj : Metric.sphere (0 : E) 1 → Q} {x : Q}\n    (S : DifferentialGeometry.Geometry.SectionWitness E n Q proj x) :\n    SectionWitness E n Q proj x where\n  W := S.W\n  V := S.V\n  scW := S.scW\n  t2W := S.t2W\n  bW := S.bW\n  m1W := S.m1W\n  mtW := S.mtW\n  scV := S.scV\n  t2V := S.t2V\n  bV := S.bV\n  m1V := S.m1V\n  mtV := S.mtV\n  s := S.s\n  mem := S.mem\n  isSec := S.isSec\n\ndef RoundQuotientData.ofOriginal\n    (D : DifferentialGeometry.Geometry.RoundQuotientData.{uE, uQ} E n) :\n    RoundQuotientData.{uE, uQ} E n where\n  Q := D.Q\n  topos := D.topos\n  charted := D.charted\n  mfld := D.mfld\n  mfld1 := D.mfld1\n  mfldTop := D.mfldTop\n  t2 := D.t2\n  sigmaCompact := D.sigmaCompact\n  boundaryless := D.boundaryless\n  Γ := D.Γ\n  grp := D.grp\n  fin := D.fin\n  ρ := D.ρ\n  proj := D.proj\n  proj_smooth := D.proj_smooth\n  proj_smul := D.proj_smul\n  proj_eq_imp := D.proj_eq_imp\n  sectionAt x := SectionWitness.ofOriginal (D.sectionAt x)\n\ndef SectionWitness.toOriginal\n    {Q : Type uQ} [TopologicalSpace Q] [ChartedSpace (EuclideanSpace ℝ (Fin n)) Q]\n    [IsManifold (𝓡 n) ∞ Q]\n    {proj : Metric.sphere (0 : E) 1 → Q} {x : Q}\n    (S : SectionWitness E n Q proj x) :\n    DifferentialGeometry.Geometry.SectionWitness E n Q proj x where\n  W := S.W\n  V := S.V\n  scW := S.scW\n  t2W := S.t2W\n  bW := S.bW\n  m1W := S.m1W\n  mtW := S.mtW\n  scV := S.scV\n  t2V := S.t2V\n  bV := S.bV\n  m1V := S.m1V\n  mtV := S.mtV\n  s := S.s\n  mem := S.mem\n  isSec := S.isSec\n\ndef RoundQuotientData.toOriginal\n    (D : RoundQuotientData.{uE, uQ} E n) :\n    DifferentialGeometry.Geometry.RoundQuotientData.{uE, uQ} E n where\n  Q := D.Q\n  topos := D.topos\n  charted := D.charted\n  mfld := D.mfld\n  mfld1 := D.mfld1\n  mfldTop := D.mfldTop\n  t2 := D.t2\n  sigmaCompact := D.sigmaCompact\n  boundaryless := D.boundaryless\n  Γ := D.Γ\n  grp := D.grp\n  fin := D.fin\n  ρ := D.ρ\n  proj := D.proj\n  proj_smooth := D.proj_smooth\n  proj_smul := D.proj_smul\n  proj_eq_imp := D.proj_eq_imp\n  sectionAt x := SectionWitness.toOriginal (D.sectionAt x)\n\nend\n\nend HamiltonPointwise\n",
+  "source_origin": "Four SectionWitness/RoundQuotientData conversion definitions copied verbatim from HamiltonBridge.lean, with standalone imports and namespace closing lines.",
+  "lean_exit_code": 0,
+  "diagnostics": [],
+  "dependency_resolution": "LEAN_PATH prefixed with .lake/ci/35461521502-build/lib/lean, then lake env LEAN_PATH; no dependency build",
+  "ci_run": "https://github.com/Deicyde/differential-geometry/actions/runs/35461521502",
+  "quotient_descent_olean_sha256": "4135c8c64480f7c8672ab140ae484a3bb91664ecbc8deaaffb1f34454ffca485",
+  "checked_definitions": [
+    "HamiltonPointwise.SectionWitness.ofOriginal",
+    "HamiltonPointwise.RoundQuotientData.ofOriginal",
+    "HamiltonPointwise.SectionWitness.toOriginal",
+    "HamiltonPointwise.RoundQuotientData.toOriginal"
+  ],
+  "hamilton_bridge_sha256": "a4a8a4d267bbd98cc794d28ca444b6062ef07830b792c7cc22abb82bc826e3bb",
+  "limitations": "Checks actual original quotient structures in both directions. Spherical-space-form and full-statement packaging, original Hamilton, Solution and final Comparator still pending."
+}

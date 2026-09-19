@@ -226,8 +226,8 @@ private theorem NormalCoordMetricEquivOn.chart_join_le
         (mfderiv 𝓘(Real, E) I e (eta s)).comp
             (mfderiv 𝓘(Real, Real) 𝓘(Real, E) eta s) =
           mfderiv 𝓘(Real, Real) I gamma s := by
-      have hderiv := Filter.EventuallyEq.mfderiv_eq
-        (I := 𝓘(Real, Real)) (I' := I) heq
+      have hderiv : mfderiv 𝓘(Real, Real) I (e ∘ eta) s =
+          mfderiv 𝓘(Real, Real) I gamma s := heq.mfderiv_eq
       rw [mfderiv_comp s heDiff hetaDiff] at hderiv
       simpa only using hderiv
     have hetaVel : mfderiv 𝓘(Real, Real) 𝓘(Real, E) eta s 1 =

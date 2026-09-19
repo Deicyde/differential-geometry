@@ -355,8 +355,8 @@ theorem NormalBallChart.MetricEquivOn.inv_dist_le
         (mfderiv 𝓘(Real, F) J chi.hom (eta t)).comp
             (mfderiv 𝓘(Real, Real) 𝓘(Real, F) eta t) =
           mfderiv 𝓘(Real, Real) J gamma t := by
-      have hderiv := Filter.EventuallyEq.mfderiv_eq
-        (I := 𝓘(Real, Real)) (I' := J) heq
+      have hderiv : mfderiv 𝓘(Real, Real) J (chi.hom ∘ eta) t =
+          mfderiv 𝓘(Real, Real) J gamma t := heq.mfderiv_eq
       rw [mfderiv_comp t hhomDiff hetaDiff] at hderiv
       simpa only using hderiv
     have hetaVel : mfderiv 𝓘(Real, Real) 𝓘(Real, F) eta t 1 =
@@ -687,8 +687,8 @@ theorem NormalCoordMetricEquivOn.chart_dist_le
         (mfderiv 𝓘(Real, E) I e (eta t)).comp
             (mfderiv 𝓘(Real, Real) 𝓘(Real, E) eta t) =
           mfderiv 𝓘(Real, Real) I gamma t := by
-      have hderiv := Filter.EventuallyEq.mfderiv_eq
-        (I := 𝓘(Real, Real)) (I' := I) heq
+      have hderiv : mfderiv 𝓘(Real, Real) I (e ∘ eta) t =
+          mfderiv 𝓘(Real, Real) I gamma t := heq.mfderiv_eq
       rw [mfderiv_comp t heDiff hetaDiff] at hderiv
       simpa only using hderiv
     have hetaVel : mfderiv 𝓘(Real, Real) 𝓘(Real, E) eta t 1 =

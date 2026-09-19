@@ -297,8 +297,9 @@ theorem transition_isom (g : SmoothRiemannianMetric I M) {p q : M}
           (mfderiv (modelWithCornersSelf Real E)
             (modelWithCornersSelf Real E) (c.transition d) z) =
         mfderiv (modelWithCornersSelf Real E) I c.hom z := by
-    have hderiv := Filter.EventuallyEq.mfderiv_eq
-      (I := modelWithCornersSelf Real E) (I' := I) heq
+    have hderiv : mfderiv (modelWithCornersSelf Real E) I
+        (d.hom ∘ c.transition d) z =
+        mfderiv (modelWithCornersSelf Real E) I c.hom z := heq.mfderiv_eq
     rw [mfderiv_comp z hdDiff htransDiff] at hderiv
     simpa only using hderiv
   rw [d.metric_apply g, c.metric_apply g, hovl.map_eq hz]

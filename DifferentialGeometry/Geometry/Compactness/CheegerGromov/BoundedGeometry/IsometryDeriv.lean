@@ -2113,8 +2113,10 @@ theorem normal_transition_isometry
             (normalTransition (I := I) Y x y) z) =
         mfderiv 𝓘(Real, E') I
           (fun q : E' => expMapDiffeo (I := I) Y.metric x q) z := by
-    have hderiv := Filter.EventuallyEq.mfderiv_eq
-      (I := 𝓘(Real, E')) (I' := I) heq
+    have hderiv : mfderiv 𝓘(Real, E') I
+        ((expMapDiffeo (I := I) Y.metric y) ∘ normalTransition (I := I) Y x y) z =
+        mfderiv 𝓘(Real, E') I (expMapDiffeo (I := I) Y.metric x) z :=
+      heq.mfderiv_eq
     rw [mfderiv_comp z hdy hT] at hderiv
     simpa only using hderiv
   rw [normalCoordMetric_apply (I := I), normalCoordMetric_apply (I := I), hbase]

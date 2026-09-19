@@ -229,8 +229,8 @@ private theorem NormalBallChart.MetricEquivOn.inv_join_le
         (mfderiv 𝓘(Real, E) I c.hom (eta s)).comp
             (mfderiv 𝓘(Real, Real) 𝓘(Real, E) eta s) =
           mfderiv 𝓘(Real, Real) I gamma s := by
-      have hderiv := Filter.EventuallyEq.mfderiv_eq
-        (I := 𝓘(Real, Real)) (I' := I) heq
+      have hderiv : mfderiv 𝓘(Real, Real) I (c.hom ∘ eta) s =
+          mfderiv 𝓘(Real, Real) I gamma s := heq.mfderiv_eq
       rw [mfderiv_comp s hhomDiff hetaDiff] at hderiv
       simpa only using hderiv
     have hetaVel : mfderiv 𝓘(Real, Real) 𝓘(Real, E) eta s 1 =
