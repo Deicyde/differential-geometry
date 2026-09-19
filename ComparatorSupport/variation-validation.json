@@ -1,0 +1,44 @@
+{
+  "checked_at_utc": "2026-09-19T20:19:23.637262+00:00",
+  "scope": "Complete Variation.lean checked against source-matched CI9 interfaces; final Solution and Comparator remain pending.",
+  "full_file": {
+    "scope": "Bounded direct full-file Lean validation using read-only source-matched CI9 dependency artifacts; not a Comparator pass.",
+    "source": "DifferentialGeometry/Geometry/Flow/RicciFlow/ShortTime/ConjugatingFlow/Variation.lean",
+    "source_sha256": "a67dcc9cb1c245d24c4bd457ee13c3f2664c73d9af1bf915655c3d883f84d462",
+    "source_dependency_count": 309,
+    "source_dependencies_verified": true,
+    "lean_num_threads": 2,
+    "heartbeat_override": false,
+    "command": [
+      "/Users/jack/.elan/bin/lean",
+      "/Users/jack/Desktop/LEAN/differential-geometry-updated/DifferentialGeometry/Geometry/Flow/RicciFlow/ShortTime/ConjugatingFlow/Variation.lean",
+      "-o",
+      "/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/comparator/conjugating-variation-port/Variation.olean"
+    ],
+    "lean_path": "/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/ci/35465452952-build/lib/lean:/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/packages/Cli/.lake/build/lib/lean:/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/packages/batteries/.lake/build/lib/lean:/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/packages/Qq/.lake/build/lib/lean:/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/packages/aesop/.lake/build/lib/lean:/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/packages/importGraph/.lake/build/lib/lean:/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/packages/plausible/.lake/build/lib/lean:/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/packages/mathlib/.lake/build/lib/lean:/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/build/lib/lean:/Users/jack/.elan/toolchains/leanprover--lean4---v4.34.0-rc2/lib/lean",
+    "status": "passed",
+    "return_code": 0,
+    "elapsed_seconds": 43.51,
+    "source_unchanged": true,
+    "checked_at": "2026-09-19T20:18:19.305409+00:00"
+  },
+  "exact_hsec_fragment": "  have hsec : \u2200 r : \u211d,\n      mfderiv \ud835\udcd8(\u211d, \u211d) I (fun w : \u211d => Gg w r) t\n        (constantModelVectorField (1 : \u211d) t)\n        = -(X t ((\u03a6_fam t : M \u2192 M) (cc r))) := by\n    intro r\n    have hbase : Gg t r = (\u03a6_fam t : M \u2192 M) (cc r) :=\n      (horbit_nhds r).eq_of_nhds\n    rw [hbase]\n    have hderiv : mfderiv \ud835\udcd8(\u211d, \u211d) I (fun w : \u211d => Gg w r) t =\n        mfderiv \ud835\udcd8(\u211d, \u211d) I (fun w : \u211d => (\u03a6_fam w : M \u2192 M) (cc r)) t :=\n      (horbit_nhds r).mfderiv_eq\n    rw [hderiv]\n    have hmf : HasMFDerivAt \ud835\udcd8(\u211d, \u211d) I (fun w : \u211d => (\u03a6_fam w : M \u2192 M) (cc r)) t\n        ((tangentSpaceModelContinuousLinearEquiv\n          (I := \ud835\udcd8(\u211d, \u211d)) t).toContinuousLinearMap.smulRight\n            (-(X t ((\u03a6_fam t : M \u2192 M) (cc r))))) :=\n      (h\u03a6ode (cc r) t \u27e8ht0, htT\u27e9).hasMFDerivAt (Ici_mem_nhds ht0)\n    rw [hmf.mfderiv]\n    rw [ContinuousLinearMap.smulRight_apply]\n    simp [constantModelVectorField]\n",
+  "fragment_validation": {
+    "scope": "Exact complete hsec proof block copied verbatim into a generic context; full Variation file and Comparator not validated by this probe.",
+    "return_code": 0,
+    "elapsed_seconds": 31.49,
+    "source_sha256": "a67dcc9cb1c245d24c4bd457ee13c3f2664c73d9af1bf915655c3d883f84d462",
+    "probe_sha256": "a1084951a3d58e09d8e44901894b961ba5eef4f100bf50166ad6dd2a04f2c294",
+    "proof_copied_verbatim": true,
+    "context_generalization": "X generalized from smooth sections to dependent vector fields; \u03a6_fam generalized from diffeomorphisms to maps. Existing germ equality, ODE derivative and time interval hypotheses retained.",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/comparator/conjugating-variation-port/Hsec.lean"
+    ],
+    "lean_num_threads": 2,
+    "heartbeat_override": false,
+    "checked_at": "2026-09-19T20:16:52.764147+00:00"
+  }
+}

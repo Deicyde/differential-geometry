@@ -21,7 +21,13 @@ The tools used for this version are the unmodified official `v4.34.0-rc2` releas
 - Comparator: `19e111e2141cf333c7daff0f64c5f24acc91dd2e`.
 - lean4export: `cacf989bd75f608700820f6afc595f32e7a99a4d`.
 
-From the repository root, prepare the tools once:
+For a fresh checkout, fetch the pinned Mathlib cache from the repository root:
+
+```sh
+lake exe cache get
+```
+
+Then prepare the tools once:
 
 ```sh
 git clone --depth 1 --branch v4.34.0-rc2 https://github.com/leanprover/comparator.git .lake/comparator-tools/v4.34.0-rc2

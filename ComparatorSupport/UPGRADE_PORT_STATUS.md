@@ -18,14 +18,12 @@ The compatibility repairs applied to the original library are:
   avoiding the changed implicit arguments of the global lemma.
 - Open-ball membership proofs use their existing metric's symmetry field,
   avoiding ambiguous topology inference in the generalized Mathlib lemma.
-- Derivative congruence proofs close the new tangent-space cast equalities by
-  reflexivity or explicitly type the derivative equality before rewriting.
-  All 121 uses of `.mfderiv_eq` in the solution's project dependency chain were
-  reviewed for this change; later CI checks exposed further simplifier-sensitive
-  cases, which use the same explicit equality approach. Two constant-derivative
-  closures additionally simplify the resulting zero composition explicitly;
-  their exact replacement proof passed Lean. See
-  `derivative-closure-validation.json`.
+- Derivative congruence proofs account for the new tangent-space cast compositions.
+  They use explicit derivative equalities before structural rewriting, or simplify
+  the remaining zero composition directly. The two Sobolev constant-derivative
+  repairs passed full-file CI validation; see `derivative-closure-validation.json`.
+  The conjugating-flow variation repair passed a complete Lean check against
+  source-matched interfaces; see `variation-validation.json`.
 
 - Uniform-integrability proofs use Mathlib's domination and subsequence lemmas
   for its new limit-based definition. Uniform-tightness calls supply the now

@@ -344,7 +344,10 @@ theorem flow_cov_variation
     have hbase : Gg t r = (Φ_fam t : M → M) (cc r) :=
       (horbit_nhds r).eq_of_nhds
     rw [hbase]
-    rw [(horbit_nhds r).mfderiv_eq]
+    have hderiv : mfderiv 𝓘(ℝ, ℝ) I (fun w : ℝ => Gg w r) t =
+        mfderiv 𝓘(ℝ, ℝ) I (fun w : ℝ => (Φ_fam w : M → M) (cc r)) t :=
+      (horbit_nhds r).mfderiv_eq
+    rw [hderiv]
     have hmf : HasMFDerivAt 𝓘(ℝ, ℝ) I (fun w : ℝ => (Φ_fam w : M → M) (cc r)) t
         ((tangentSpaceModelContinuousLinearEquiv
           (I := 𝓘(ℝ, ℝ)) t).toContinuousLinearMap.smulRight
