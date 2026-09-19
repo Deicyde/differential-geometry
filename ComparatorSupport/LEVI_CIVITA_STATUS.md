@@ -1,74 +1,40 @@
-# Upgraded Hamilton challenge: Levi-Civita checkpoint
+# Hamilton bridge validation
 
-## Initial checkpoint: statement and generic helpers
+## Current result
 
-- `Challenge.lean` (245 lines) imports only Mathlib. It now uses Mathlib's actual `CovariantDerivative.leviCivitaConnection` with the explicitly supplied smooth metric. Full live Lean check completed successfully (`partial=false`); its sole diagnostic is the intended final target `sorry` at line 242.
-- `HamiltonDefinitions.lean` (230 lines) contains the identical import and definition block, byte for byte. Its dedicated live Lean check was pending at the initial checkpoint, with no diagnostics or failed dependencies. The same complete block passed within `Challenge.lean`, and the resumed work below subsequently built `HamiltonDefinitions.olean` successfully.
-- `ComparatorSupport/LeviCivita.lean` (168 lines) imports only Mathlib and contains proved generic comparison lemmas. Its full live Lean check completed successfully (`partial=false`) with **zero diagnostics**, no failed dependencies, and no proof holes. The file is tracked by the existing `/ComparatorSupport/` whitelist in `.gitignore`.
-- Machine-readable evidence and SHA-256 hashes: `validation.json`.
+The complete `HamiltonBridge.lean` passes both the normal Lean build and a full live Lean check. The normal build exited successfully with no errors; the live check returned `partial=false`, `success=true`, no diagnostics, and no failed dependencies. No bridge source changes were required.
 
-The repository pin is Mathlib `769b0a5ad45c8d886c754c0be19835b908f98dcb`, the Levi-Civita PR merge, on Lean `v4.34.0-rc2`. No heartbeat overrides were introduced.
+Both full-statement transfer theorems, `HamiltonPointwise.hamiltonStatement_of_original` and `HamiltonPointwise.hamiltonStatement_iff_original`, depend on exactly `propext`, `Classical.choice`, and `Quot.sound`. The second theorem proves equivalence in both directions between the shortened statement and the original statement, including its complete quantifiers and hypotheses.
 
-## What is preserved
+**`Solution.lean` and the final Comparator pass remain pending.** The solution imports the original Hamilton theorem, whose upgraded dependency build is separate from the now completed bridge validation. No final solution or Comparator success is claimed here.
 
-The closed-manifold definition, quotient data and all quotient fields, spherical-space-form definition, and complete `HamiltonStatement` quantifiers/hypotheses were copied unchanged from the previous standalone statement. A byte comparison of that whole suffix succeeded. Only the connection construction was replaced, eliminating the custom flat/sharp and Koszul basis machinery.
+Exact source and compiled-artifact hashes, build and live-check results, and the full axiom output are saved in `full-bridge-validation.json`. The normal build log is `.lake/upgrade-bridge-build-8.log`.
 
-The statement still quantifies over an explicit smooth metric. The wrapper installs that metric's `RiemannianBundle` locally and obtains its metric regularity from Mathlib's existing instance. There is no new hypothesis assuming that a Levi-Civita connection exists, is smooth, or proves Hamilton's conclusion. No norm/topology instance conflict arose in the complete checks.
+## Statement and metric construction
 
-## Checked support lemmas
+The repository uses Mathlib `769b0a5ad45c8d886c754c0be19835b908f98dcb`, the Levi-Civita PR merge, with Lean `v4.34.0-rc2`.
 
-`HamiltonLeviCivitaSupport` contains:
+`Challenge.lean` has 245 lines and imports only Mathlib. Its complete live Lean check passed, with only the intended final target `sorry`. `HamiltonDefinitions.lean` contains the identical imports and definitions, byte for byte, and has built successfully. The solution and bridge contain no proof holes or added axioms, and no heartbeat overrides were introduced.
 
-1. `metricConnection_isLeviCivita`: the explicit metric wrapper is Mathlib Levi-Civita.
-2. `metricConnection_eq_of_compatible_torsionFree`: any connection satisfying the original raw compatibility equation and zero torsion agrees with the Mathlib connection on differentiable fields.
-3. `covariantDerivative_iterate_eq`: this equality transports nested derivatives when the inner derivative for the old connection is differentiable.
-4. `tangentConstAt_eventuallyEq_extend` and `eventually_mdiff_tangentConstAt`: the original local extension agrees with Mathlib's extension near the base point and is differentiable on a neighborhood.
-5. `riemannValue_eq_of_connection_agreement`: pointwise Riemann formulas agree under connection agreement and the old local differentiability result.
+The statement quantifies over an explicit smooth metric. Its connection wrapper locally installs that metric's `RiemannianBundle` and uses Mathlib's actual `CovariantDerivative.leviCivitaConnection`. Metric regularity comes from the existing smooth-metric instance. The theorem does not assume additional existence, smoothness, or curvature facts about this connection.
 
-The support module deliberately uses its own namespace and includes its own small metric/curvature wrappers. It does **not** yet instantiate these generic lemmas for the original repository connection, and importing it does not prove the challenge.
+The closed-manifold definition, all quotient fields, spherical-space-form definition, and complete main-statement quantifiers and hypotheses were preserved. The checked bridge proves agreement of the metric connections on differentiable fields, the pointwise Riemann and Ricci values, both curvature predicates, the quotient representations, and the full theorem statements.
 
-A relevant upgrade change was caught and handled: `Trivialization.symm` now uses `Classical.arbitrary` outside its chart, while `symmL` still uses zero. Their global equality is false in general. The proved bridge uses only equality on a neighborhood, which is all curvature needs.
+## Local regularity and typeclasses
 
-## Concrete bridge implementation awaiting validation
+Mathlib's Levi-Civita connection is compared with the original connection only on differentiable fields. The original proved smoothness result supplies the regularity needed to transport nested derivatives. No equality on arbitrary nondifferentiable fields is asserted.
 
-The resumed `HamiltonBridge.lean` candidate instantiates the generic connection lemma with:
+An upgrade detail matters here: `Trivialization.symm` now uses `Classical.arbitrary` outside its chart, while `symmL` uses zero. The tangent extensions are therefore compared only on a neighborhood of the base point. This is sufficient for curvature, and the complete bridge checks validate that local argument.
 
-- `DifferentialGeometry.Geometry.Connection.leviCivitaConnectionOfMetric`;
-- `leviCivitaConnectionOfMetric_isMetricCompatible`;
-- `leviCivitaConnectionOfMetric_isTorsionFree`.
+`ComparatorSupport/DefinitionAgreement.lean` proves by reflexivity that the challenge's connection, tangent extension, and Riemann formula are the generic helper definitions. Its full live Lean check passed with zero diagnostics. No additional norm/topology instance conflict occurred in the full checks.
 
-These original compatibility and torsion predicates have exactly the raw equations accepted by the checked generic lemma. The compatibility conversion uses `CovariantDerivative.isMetricCompatible_iff`; the torsion conversion is function extensionality.
+## Supporting evidence
 
-For the iterated derivative hypothesis, the candidate uses the original:
+- `LeviCivita.lean`: checked Mathlib-only uniqueness, local extension, and curvature transport helpers.
+- `DefinitionAgreement.lean`: checked definition agreement with the challenge.
+- `ConcreteBridgeProbe.lean` and `concrete-bridge-validation.json`: concrete original connection and curvature checks, successful live Lean result, and four standard-three-axiom audits.
+- `curvature-predicates-validation.json`: exact curvature section copied from the bridge, including actual metric aliases and both curvature predicate equivalences; all six theorem axiom audits passed.
+- `quotient-bridge-validation.json`: exact quotient-data conversions checked in both directions.
+- `full-bridge-validation.json`: authoritative complete bridge build, live-check, and full-statement axiom results.
 
-- `DifferentialGeometry.Geometry.Curvature.CovariantDerivative.cov_tangentConst_apply_mdiffAt_self`;
-- `DifferentialGeometry.Geometry.Connection.leviCivitaConnectionOfMetric_contMDiffCovariantDerivativeLocally`.
-
-The candidate transfers the Riemann and Ricci values and their positivity/constant-curvature predicates, adapting the previous `HamiltonBridge.lean` proof. Its local regularity comes from the old proved smooth connection; it does not assume a new Mathlib LC smoothness result. These concrete instantiations still require validation after the original interfaces finish building.
-
-The upgraded original-library build is incomplete. See `UPGRADE_PORT_STATUS.md` for the current build state. The resumed request authorizes a solution importing the original Hamilton theorem. The saved bridge and solution contain no proof holes, but their full check and the Comparator verdict remain pending.
-
-
-## Resumed solution work
-
-The user has requested a passing upgraded Solution. `HamiltonBridge.lean` now has a complete proof candidate for the original connection and curvature comparison, including a two-way equivalence of the full statements. `Solution.lean` (19 lines) imports the original Hamilton theorem and applies that bridge. Neither file contains a proof hole; they are **not yet claimed checked** because the upgraded original interfaces and Hamilton dependency graph are still compiling in the single port build.
-
-`ComparatorSupport/DefinitionAgreement.lean` passed a complete live Lean check with zero diagnostics. It proves by reflexivity that the challenge's connection, tangent extension, and Riemann formula coincide with the generic support definitions. The LSP setup also successfully built `HamiltonDefinitions.olean` and `ComparatorSupport/LeviCivita.olean`.
-
-No challenge statement, hypothesis, or shared definition was changed in this resumed work. The final Comparator verdict remains pending. See the refreshed `validation.json` for per-file evidence.
-
-## Concrete connection and curvature checks
-
-`ConcreteBridgeProbe.lean` now checks all four concrete mathematical bridge proofs against the original `Torsion`, `Smooth.Connection`, and `Components.Basic` interfaces: Levi-Civita equality on differentiable fields, the complete Riemann formula, the sectional curvature pairing, and the Ricci basis trace. Lean exited successfully with zero diagnostics. Each theorem separately has exactly `propext`, `Classical.choice`, and `Quot.sound` as its axioms. No proof holes or heartbeat overrides were used.
-
-The probe uses the actual original connection with the thin `metricCov` and curvature aliases unfolded. Its proof bodies implement the same steps as `HamiltonBridge.lean`, whose source remains unchanged. To avoid LSP setup launching duplicate dependency builds, the bounded check used the latest downloaded same-version CI library directory first in an isolated `LEAN_PATH`, followed by the local cache. Exact source/artifact hashes, the successful exit status, and the full axiom output are saved in `concrete-bridge-validation.json`. This additional probe is outside the `Solution.lean` import closure. Full bridge packaging and the final Solution/Comparator run remain pending.
-
-After the single local port build refreshed the same interfaces, the complete live Lean check of `ConcreteBridgeProbe.lean` also passed (`partial=false`, `success=true`, zero diagnostics and failed dependencies), with no further dependency build. This local LSP result is recorded alongside the isolated check.
-
-## Exact curvature predicate checks
-
-Once `MetricConditions` became available, the full curvature section was copied verbatim from `HamiltonBridge.lean` into a bounded standalone probe and checked against the actual original metric aliases. All six theorems passed: the four concrete connection/curvature equalities and both positive-Ricci/constant-positive-sectional-curvature equivalences. Each has exactly the three permitted axioms. The source of `HamiltonBridge.lean` remains unchanged. `curvature-predicates-validation.json` preserves the exact tested source, source/artifact hashes, successful exits, and complete axiom output. Quotient and full-statement packaging and the final Solution/Comparator pass remain pending.
-
-## Exact quotient conversion checks
-
-The four `SectionWitness` and `RoundQuotientData` conversion definitions were copied verbatim from `HamiltonBridge.lean` and checked against the original `QuotientDescent` interface. Both directions passed with exit code zero and no diagnostics. Exact source and artifact hashes are saved in `quotient-bridge-validation.json`. No bridge source change was required. The final spherical-space-form/full-statement packaging and complete Solution/Comparator validation remain pending.
+The standalone probes are outside the `Solution.lean` import closure. They were checked using source-matched same-version compiled interfaces while the coordinated build progressed. The final full bridge result above uses the complete local build.

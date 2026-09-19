@@ -1,0 +1,43 @@
+{
+  "checked_at_utc": "2026-09-19T19:07:26.539208+00:00",
+  "toolchain": "leanprover/lean4:v4.34.0-rc2",
+  "mathlib_revision": "769b0a5ad45c8d886c754c0be19835b908f98dcb",
+  "file": "HamiltonBridge.lean",
+  "source_sha256": "a4a8a4d267bbd98cc794d28ca444b6062ef07830b792c7cc22abb82bc826e3bb",
+  "olean_sha256": "503904b40165cd895f3133a322960aaec06b5bd6a19787a92883398d38386ddc",
+  "normal_build": {
+    "target": "HamiltonBridge",
+    "exit_code": 0,
+    "module_seconds": 129,
+    "log": ".lake/upgrade-bridge-build-8.log",
+    "exit_file": ".lake/upgrade-bridge-build-8.exit",
+    "errors": []
+  },
+  "live_lean": {
+    "partial": false,
+    "success": true,
+    "timed_out": false,
+    "items": [],
+    "failed_dependencies": []
+  },
+  "axiom_audit": {
+    "exit_code": 0,
+    "source_file": ".lake/HamiltonBridgeAxioms.lean",
+    "source_sha256": "97d9464b26cab30c6e282df29f98048848f7b3bbc789dd0ff36b9f63c792949c",
+    "exact_source": "import HamiltonBridge\n\n#print axioms HamiltonPointwise.hamiltonStatement_of_original\n#print axioms HamiltonPointwise.hamiltonStatement_iff_original\n\n",
+    "output": "'HamiltonPointwise.hamiltonStatement_of_original' depends on axioms: [propext, Classical.choice, Quot.sound]\n'HamiltonPointwise.hamiltonStatement_iff_original' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+    "permitted_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "checked_statement_transfers": [
+    "HamiltonPointwise.hamiltonStatement_of_original",
+    "HamiltonPointwise.hamiltonStatement_iff_original"
+  ],
+  "challenge_sha256": "03f9b6d407eab42da62cec0d3d5b788345a39fc17867b44513aed12592d6d07f",
+  "hamilton_definitions_sha256": "1bca2a809ab0945c94431efd3d2b96caa99b397d0cc68e7adbda13f0061d823d",
+  "solution_sha256": "d7e4c4c4e35203926c6c52787da2f507aca9222c3ec66a1ee82eaa722449698a",
+  "scope": "Full HamiltonBridge checked without source changes. Both directions of equivalence to the original complete Hamilton statement are proved. Solution and final Comparator remain pending until the original Hamilton import is available."
+}

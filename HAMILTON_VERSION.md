@@ -9,8 +9,9 @@ Status: work in progress. No Comparator pass is claimed. No heartbeat overrides 
 
 The updated solution imports the original Hamilton library theorem and transfers
 it through `HamiltonBridge.lean`. The challenge remains self-contained over
-Mathlib. The solution and concrete bridge have been written and are undergoing
-validation; they are not yet certified by Comparator.
+Mathlib. The complete bridge has passed its normal build, live Lean check, and axiom
+audits. The solution is undergoing end-to-end validation and is not yet certified
+by Comparator.
 
 ## Verified work
 
@@ -24,9 +25,11 @@ validation; they are not yet certified by Comparator.
   generic uniqueness/curvature transport proofs passed full live Lean validation
   with zero diagnostics and no proof holes. See
   `ComparatorSupport/LEVI_CIVITA_STATUS.md` for the precise validation scope.
-- The concrete connection, Riemann, sectional-curvature, and Ricci comparison
-  proofs passed full live Lean validation and use only the three standard axioms.
-  The full bridge packaging and imported Hamilton proof remain under validation.
+- The complete `HamiltonBridge.lean` passed its normal build and full live Lean
+  validation with zero diagnostics. Its two statement-transfer theorems use only
+  the three standard axioms and prove equivalence to the original statement in
+  both directions. See `ComparatorSupport/full-bridge-validation.json`.
+  The imported Hamilton proof and final Solution check remain under validation.
 - Canonical Mathlib dependency cache fetched successfully. The original Hamilton
   proof is now being rebuilt on the upgraded dependencies. Full Hamilton and
   Comparator checks are incomplete.

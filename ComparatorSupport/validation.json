@@ -1,5 +1,5 @@
 {
-  "timestamp_utc": "2026-09-19T18:28:24.653635+00:00",
+  "timestamp_utc": "2026-09-19T19:08:30.971376+00:00",
   "files": {
     "Challenge.lean": {
       "lines": 245,
@@ -49,8 +49,8 @@
     "failed_dependencies": [],
     "diagnostics": []
   },
-  "concrete_original_curvature_bridge": "All four concrete connection/curvature proof fragments passed full live Lean validation and standard-three-axiom audits; see concrete-bridge-validation.json. Full HamiltonBridge predicate/quotient packaging remains pending.",
-  "hamilton_solution": "Solution.lean imports original Hamilton and applies bridge; pending upgraded original Hamilton build and concrete bridge check",
+  "concrete_original_curvature_bridge": "Complete HamiltonBridge passed normal build, full live Lean check, and full-statement axiom audits. See full-bridge-validation.json.",
+  "hamilton_solution": "Solution.lean imports original Hamilton and applies the checked bridge; full Solution build and Comparator remain pending.",
   "comparator": "Full hosted check in progress. Prior attempts stopped at library compilation errors, now repaired; no full Comparator pass yet.",
   "definition_agreement_lsp": {
     "partial": false,
@@ -60,5 +60,13 @@
   },
   "shared_definitions_build": "HamiltonDefinitions.olean built by LSP dependency setup for DefinitionAgreement",
   "generic_helpers_build": "ComparatorSupport/LeviCivita.olean built by LSP dependency setup for DefinitionAgreement",
-  "statement_equivalence": "Bidirectional proof candidate in HamiltonBridge.lean; not yet verified"
+  "statement_equivalence": "Bidirectional equivalence proved in HamiltonBridge.lean and checked by normal build and live Lean; both statement-transfer theorems depend only on propext, Classical.choice, Quot.sound.",
+  "full_bridge": {
+    "passed": true,
+    "normal_build_exit_code": 0,
+    "live_lean_success": true,
+    "live_lean_partial": false,
+    "axiom_audit_exit_code": 0,
+    "evidence": "full-bridge-validation.json"
+  }
 }

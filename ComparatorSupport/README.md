@@ -6,7 +6,9 @@ intentional. `Solution.lean` imports the repository's original Hamilton proof
 and transfers it through `HamiltonBridge.lean` to the same statement.
 
 **Validation is in progress. A completed Comparator pass has not yet been recorded.**
-The original library is being rebuilt for the upgraded Mathlib and Lean versions.
+The complete geometric bridge has passed its normal build, live Lean check,
+and axiom audits; see `full-bridge-validation.json`. The original Hamilton proof
+is still being rebuilt for the upgraded Mathlib and Lean versions.
 
 `comparator.json` permits only `propext`, `Quot.sound`, and `Classical.choice`.
 It has no exempt definitions. `enable_nanoda: false` selects the builtin Lean
