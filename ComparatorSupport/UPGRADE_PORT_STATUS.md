@@ -16,6 +16,8 @@ The compatibility repairs applied to the original library are:
 - Completeness proofs use the renamed `γ` argument.
 - The zero-distance proof uses the separation field of its chosen metric space,
   avoiding the changed implicit arguments of the global lemma.
+- Open-ball membership proofs use their existing metric's symmetry field,
+  avoiding ambiguous topology inference in the generalized Mathlib lemma.
 - Derivative congruence proofs close the new tangent-space cast equalities by
   reflexivity. All 121 uses of `.mfderiv_eq` in the solution's project dependency
   chain were reviewed for this change.

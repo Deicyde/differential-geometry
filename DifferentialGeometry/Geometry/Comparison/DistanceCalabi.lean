@@ -161,7 +161,7 @@ theorem CalabiTailData.mem_eball
     have hbase : 0 ≤ tail.left + tail.ell * t :=
       add_nonneg tail.left_nonneg hellt
     linarith
-  rw [Metric.mem_eball',
+  rw [Metric.mem_eball, (inferInstance : PseudoEMetricSpace M).edist_comm,
     IsRiemannianManifold.out (I := I) O
       (intrinsicGeodesic (I := I) g hEnorm tail.p tail.u t)]
   calc

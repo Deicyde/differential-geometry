@@ -113,7 +113,8 @@ theorem intrFrame_mem_eball
       (expMapIntrinsic (I := I) g hEnorm p (normalFrame (I := I) g p z))]
     simpa only [intrinsicGeodesic_zero, ← expMapIntrinsic_def,
       intrFrame_apply, normalFrame_sqrt, sub_zero, mul_one] using hdist
-  rw [Metric.mem_eball']
+  change edist (intrinsicFramedExp (I := I) g hEnorm p z) p < ENNReal.ofReal r
+  rw [(inferInstance : PseudoEMetricSpace M).edist_comm]
   exact hrad.trans_lt
     ((ENNReal.ofReal_lt_ofReal_iff_of_nonneg (norm_nonneg z)).2 hz)
 

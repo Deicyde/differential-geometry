@@ -69,7 +69,7 @@ theorem exists_ballCalabi
   have hxriem :
       riemannianEDist I B.center x < ENNReal.ofReal (B.radius / 2) := by
     have hx' := hx
-    rw [Metric.mem_eball',
+    rw [Metric.mem_eball, (inferInstance : PseudoEMetricSpace M).edist_comm,
       IsRiemannianManifold.out (I := I) B.center x] at hx'
     exact hx'
   have hfinite :
@@ -100,7 +100,7 @@ theorem exists_ballCalabi
     have hyriem :
         riemannianEDist I B.center y < ENNReal.ofReal B.radius := by
       have hy' := hy
-      rw [Metric.mem_eball',
+      rw [Metric.mem_eball, (inferInstance : PseudoEMetricSpace M).edist_comm,
         IsRiemannianManifold.out (I := I) B.center y] at hy'
       exact hy'
     have hyset : y ∈ B.setAt t := by
@@ -241,7 +241,7 @@ theorem exists_ballFlow
     have hyriem :
         riemannianEDist I B.center y < ENNReal.ofReal B.radius := by
       have hy' := hy
-      rw [Metric.mem_eball',
+      rw [Metric.mem_eball, (inferInstance : PseudoEMetricSpace M).edist_comm,
         IsRiemannianManifold.out (I := I) B.center y] at hy'
       exact hy'
     have hyset : y ∈ B.setAt t := by

@@ -1,0 +1,34 @@
+{
+  "checked_at_utc": "2026-09-19T18:35:59.027877+00:00",
+  "toolchain": "leanprover/lean4:v4.34.0-rc2",
+  "mathlib_revision": "769b0a5ad45c8d886c754c0be19835b908f98dcb",
+  "tested_source_file": ".lake/CurvatureBridgePredicatesProbe.lean",
+  "source_sha256": "e9c689e123061b1654aa4ceb010d81cd10a21fad7ac565988d6f4909600a7c68",
+  "exact_tested_source": "import HamiltonDefinitions\nimport ComparatorSupport.LeviCivita\nimport DifferentialGeometry.Geometry.Curvature.Components.Basic\nimport DifferentialGeometry.Geometry.Curvature.MetricConditions\n\nset_option autoImplicit false\n\nnamespace HamiltonPointwise\nnoncomputable section\nopen DifferentialGeometry.Geometry.Curvature\nopen DifferentialGeometry.Tensor0SBundle\nopen scoped Manifold ContDiff BigOperators\n\nvariable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]\nvariable [FiniteDimensional ℝ E] [CompleteSpace E]\nvariable {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}\nvariable {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]\n\n/-- The original connection and Mathlib's connection agree on differentiable fields. -/\ntheorem metricConnection_eq_original (g : SmoothRiemannianMetric I M)\n    (Y : (p : M) → TangentSpace I p) (x : M)\n    (hY : MDiffAt (T% Y) x) (v : TangentSpace I x) :\n    metricConnection g Y x v = metricCov (I := I) g Y x v := by\n  exact HamiltonLeviCivitaSupport.metricConnection_eq_of_compatible_torsionFree\n    g (metricCov (I := I) g)\n    (DifferentialGeometry.Geometry.Connection.leviCivitaConnectionOfMetric_isMetricCompatible\n      (I := I) g)\n    (DifferentialGeometry.Geometry.Connection.leviCivitaConnectionOfMetric_isTorsionFree\n      (I := I) g) hY v\n\n/-- The curvature formula is independent of the two constructions of Levi-Civita. -/\ntheorem riemannValue_eq_original (g : SmoothRiemannianMetric I M) (x : M)\n    (X Y Z : TangentSpace I x) :\n    riemannValue g x X Y Z =\n      CovariantDerivative.riemannCurvatureAux (metricCov (I := I) g)\n        (CovariantDerivative.tangentConstAt (I := I) x X)\n        (CovariantDerivative.tangentConstAt (I := I) x Y)\n        (CovariantDerivative.tangentConstAt (I := I) x Z) x := by\n  exact HamiltonLeviCivitaSupport.riemannValue_eq_of_connection_agreement\n    g (metricCov (I := I) g)\n    (fun Y x hY v => metricConnection_eq_original g Y x hY v)\n    (CovariantDerivative.cov_tangentConst_apply_mdiffAt_self\n      (metricCov (I := I) g) (metricCov_smooth (I := I) g)) x X Y Z\n\ntheorem sectionalValue_eq (g : SmoothRiemannianMetric I M) (x : M)\n    (X Y Z W : TangentSpace I x) :\n    metricRm04StdAt (I := I) g x X Y Z W =\n      g.inner x W (riemannValue (I := I) g x X Y Z) := by\n  rw [riemannValue_eq_original]\n  exact CovariantDerivative.riemannCurvature04At_apply_const\n    g (metricCov (I := I) g) (metricCov_smooth (I := I) g) X Y Z W\n\ntheorem ricciValue_eq (g : SmoothRiemannianMetric I M) (x : M)\n    (Y Z : TangentSpace I x) :\n    metricRicciAt (I := I) g x (vec2 Y Z) = ricciValue (I := I) g x Y Z := by\n  unfold metricRicciAt CovariantDerivative.ricciCurvatureAt\n  rw [ricciFromRm13At_apply_basis_trace (Module.finBasis ℝ (TangentSpace I x))]\n  unfold ricciValue\n  apply Finset.sum_congr rfl\n  intro i _\n  rw [CovariantDerivative.riemannCurvatureAt_apply_const,\n    cotangentToDual_dualToCotangent_gen, riemannValue_eq_original]\n\nomit [CompleteSpace E] in\ntheorem positiveRicciMetric_iff (g : SmoothRiemannianMetric I M) :\n    positiveRicciMetric (I := I) g ↔\n      DifferentialGeometry.Geometry.Curvature.positiveRicciMetric (I := I) g := by\n  simp only [positiveRicciMetric,\n    DifferentialGeometry.Geometry.Curvature.positiveRicciMetric, ricciValue_eq]\n\nomit [CompleteSpace E] in\ntheorem constantPositiveSectionalCurvatureMetric_iff (g : SmoothRiemannianMetric I M) :\n    constantPositiveSectionalCurvatureMetric (I := I) g ↔\n      DifferentialGeometry.Geometry.Curvature.constantPositiveSectionalCurvatureMetric\n        (I := I) g := by\n  simp only [constantPositiveSectionalCurvatureMetric,\n    DifferentialGeometry.Geometry.Curvature.constantPositiveSectionalCurvatureMetric,\n    sectionalValue_eq]\n\nend\n\nend HamiltonPointwise\n",
+  "source_origin": "The entire second namespace HamiltonPointwise curvature section in HamiltonBridge.lean, copied verbatim. Only its standalone imports and closing namespace line were added.",
+  "lean_exit_code": 0,
+  "diagnostics": [],
+  "dependency_resolution": "LEAN_PATH prefixed with .lake/ci/35460594555-build/lib/lean, then lake env LEAN_PATH; no dependency build",
+  "ci_run": "https://github.com/Deicyde/differential-geometry/actions/runs/35460594555",
+  "metric_conditions_olean_sha256": "7fa8c3133ea9c9663c7d0d4b01ccab0bf8237d79c773b97b5ad9593eaf7bfed5",
+  "axiom_audit_exit_code": 0,
+  "axiom_audit_source_sha256": "a35ebe5cc5b6bad482cdfe97f4cb7e71f2b6787e3c105cbe1fc44f91e903cbe4",
+  "axiom_audit_output": "'HamiltonPointwise.metricConnection_eq_original' depends on axioms: [propext, Classical.choice, Quot.sound]\n'HamiltonPointwise.riemannValue_eq_original' depends on axioms: [propext, Classical.choice, Quot.sound]\n'HamiltonPointwise.sectionalValue_eq' depends on axioms: [propext, Classical.choice, Quot.sound]\n'HamiltonPointwise.ricciValue_eq' depends on axioms: [propext, Classical.choice, Quot.sound]\n'HamiltonPointwise.positiveRicciMetric_iff' depends on axioms: [propext, Classical.choice, Quot.sound]\n'HamiltonPointwise.constantPositiveSectionalCurvatureMetric_iff' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]\n",
+  "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "checked_theorems": [
+    "HamiltonPointwise.metricConnection_eq_original",
+    "HamiltonPointwise.riemannValue_eq_original",
+    "HamiltonPointwise.sectionalValue_eq",
+    "HamiltonPointwise.ricciValue_eq",
+    "HamiltonPointwise.positiveRicciMetric_iff",
+    "HamiltonPointwise.constantPositiveSectionalCurvatureMetric_iff"
+  ],
+  "hamilton_bridge_sha256": "a4a8a4d267bbd98cc794d28ca444b6062ef07830b792c7cc22abb82bc826e3bb",
+  "challenge_sha256": "03f9b6d407eab42da62cec0d3d5b788345a39fc17867b44513aed12592d6d07f",
+  "hamilton_definitions_sha256": "1bca2a809ab0945c94431efd3d2b96caa99b397d0cc68e7adbda13f0061d823d",
+  "limitations": "The actual original metric aliases and both curvature predicate equivalences are checked. Quotient/full-statement packaging, original Hamilton, Solution and final Comparator still pending."
+}

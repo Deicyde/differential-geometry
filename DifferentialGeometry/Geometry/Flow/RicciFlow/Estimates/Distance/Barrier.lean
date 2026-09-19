@@ -904,7 +904,7 @@ private theorem calabi_core_of_tail
           mul_le_mul_of_nonneg_left hu.2 tail.left_nonneg
         _ = tail.left := mul_one _
         _ < R := hleftR
-    rw [Metric.mem_eball',
+    rw [Metric.mem_eball, (inferInstance : PseudoEMetricSpace M).edist_comm,
       IsRiemannianManifold.out (I := I) O (γ u)]
     exact hseg'.trans_lt ((ENNReal.ofReal_lt_ofReal_iff hR).2 hmul)
   have hL₁_deriv :=
