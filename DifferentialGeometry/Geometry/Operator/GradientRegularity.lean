@@ -156,6 +156,7 @@ theorem laplacian_congr_of_eventuallyEq
     have hvalue := hy.eq_of_nhds
     unfold gradientFun metricSharp mvfderiv
     rw [hmf, hvalue]
+    rfl
   have hgrad_f : MDiffAt
       (T% fun y : M => gradientFun (I := I) g f y) x :=
     (gradientFun_contMDiffAt (I := I) g hf).mdifferentiableAt (by simp)

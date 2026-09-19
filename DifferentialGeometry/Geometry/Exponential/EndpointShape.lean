@@ -638,6 +638,7 @@ theorem branchEnergy_hess
     unfold gradientFun mvfderiv
     rw [hz.eq_of_nhds]
     rw [hz.mfderiv_eq]
+    rfl
   have hgrad_total :
       (T% fun z => gradientFun (I := I) g eSmooth z) =ᶠ[𝓝 q]
         (T% fun z => gradientFun (I := I) g
@@ -815,6 +816,7 @@ theorem branchHess_jacobi
     unfold gradientFun mvfderiv
     rw [hz.eq_of_nhds]
     rw [hz.mfderiv_eq]
+    rfl
   have hgrad_total :
       (T% fun z => gradientFun (I := I) g rSmooth z) =ᶠ[𝓝 q]
         (T% fun z => gradientFun (I := I) g
