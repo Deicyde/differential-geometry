@@ -1,0 +1,43 @@
+{
+  "timestamp_utc": "2026-09-19T16:52:02.771799+00:00",
+  "files": {
+    "Challenge.lean": {
+      "lines": 245,
+      "sha256": "03f9b6d407eab42da62cec0d3d5b788345a39fc17867b44513aed12592d6d07f"
+    },
+    "HamiltonDefinitions.lean": {
+      "lines": 230,
+      "sha256": "1bca2a809ab0945c94431efd3d2b96caa99b397d0cc68e7adbda13f0061d823d"
+    },
+    "ComparatorSupport/LeviCivita.lean": {
+      "lines": 168,
+      "sha256": "a27dba2e4be89776eb7c1600101271bb43ed04245dd39f707812a54ad5e35611"
+    }
+  },
+  "shared_definition_block_identical": true,
+  "closed_quotient_spaceform_and_Hamilton_statement_text_unchanged": true,
+  "challenge_lsp": {
+    "partial": false,
+    "success": true,
+    "failed_dependencies": [],
+    "diagnostics": [
+      "Only intentional target theorem sorry warning at line242"
+    ]
+  },
+  "shared_definitions_lsp": {
+    "partial": true,
+    "timed_out": true,
+    "failed_dependencies": [],
+    "diagnostics": [],
+    "note": "Dedicated file check still importing/elaborating. Exact same imports+definitions passed in Challenge."
+  },
+  "durable_support_lsp": {
+    "partial": false,
+    "success": true,
+    "failed_dependencies": [],
+    "diagnostics": []
+  },
+  "concrete_original_curvature_bridge": "not yet instantiated; original interface build incomplete",
+  "hamilton_solution": "not produced; original proof bridge and import-scope decision pending",
+  "comparator": "not run for updated pair"
+}

@@ -14,7 +14,13 @@ linter.style.longLine = false
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
-rev = "v4.33.1"
+rev = "769b0a5ad45c8d886c754c0be19835b908f98dcb"
 
 [[lean_lib]]
 name = "DifferentialGeometry"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "HamiltonDefinitions"

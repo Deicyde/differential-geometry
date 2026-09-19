@@ -12,6 +12,13 @@
 !/LICENSE
 !/NOTICE
 !/.gitignore
+!/HAMILTON_VERSION.md
+!/Challenge.lean
+!/Solution.lean
+!/comparator.json
+!/HamiltonDefinitions.lean
+!/HamiltonBridge.lean
+!/ComparatorSupport/
 # end of whitelist
 
 .lake/
