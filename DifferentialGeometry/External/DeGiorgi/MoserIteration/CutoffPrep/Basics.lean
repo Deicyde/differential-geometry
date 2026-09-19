@@ -116,22 +116,16 @@ theorem moser_tendsto_eLpNorm_zero_of_dominated
       (MeasureTheory.unifIntegrable_const (p := (2 : ENNReal))
         (by norm_num) (by simp) hH_memLp)
   have huiF : UnifIntegrable F 2 μ := by
-    intro ε hε
-    obtain ⟨δ, hδ, hδ'⟩ := huiH hε
-    refine ⟨δ, hδ, fun n s hs hμs => ?_⟩
-    calc
-      eLpNorm (s.indicator (F n)) 2 μ ≤ eLpNorm (s.indicator H) 2 μ := by
-        refine eLpNorm_mono_ae_real ?_
-        filter_upwards [hdom n] with x hx
-        by_cases hxs : x ∈ s
-        · simpa [Set.indicator_of_mem, hxs] using hx
-        · simp [Set.indicator_of_notMem, hxs]
-      _ ≤ ENNReal.ofReal ε := hδ' 0 s hs hμs
+    apply huiH.ae_mono
+    intro n
+    filter_upwards [hdom n] with x hx
+    simpa only [← ofReal_norm, Real.norm_eq_abs] using
+      ENNReal.ofReal_le_ofReal (hx.trans (le_abs_self (H x)))
   have hutH : UnifTight (fun _ : ℕ => H) 2 μ := by
     exact MeasureTheory.unifTight_const (p := (2 : ENNReal)) (by simp) hH_memLp
   have hutF : UnifTight F 2 μ := by
     intro ε hε
-    obtain ⟨s, hμs, hs'⟩ := hutH hε
+    obtain ⟨s, hμs, hs'⟩ := hutH ε hε
     refine ⟨s, hμs, fun n => ?_⟩
     calc
       eLpNorm (sᶜ.indicator (F n)) 2 μ ≤ eLpNorm (sᶜ.indicator H) 2 μ := by

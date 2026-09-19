@@ -132,16 +132,15 @@ private theorem tendsto_eLpNorm_smoothUnitBallExtensionApprox_sub_unitBallExtens
     simp only [Real.norm_eq_abs] at this ⊢
     exact this.trans (le_abs_self _)
   have huiF : UnifIntegrable F (ENNReal.ofReal p) volume := by
-    intro ε hε
-    obtain ⟨δ, hδ, hδ'⟩ :=
-      MeasureTheory.unifIntegrable_const (p := ENNReal.ofReal p) hHp hHp' hH_memLp hε
-    exact ⟨δ, hδ, fun n s hs hμs =>
-      le_trans (eLpNorm_indicator_le_of_norm_le (d := d) (fun x => hF_dom_norm n x) s)
-        (hδ' 0 s hs hμs)⟩
+    apply (MeasureTheory.unifIntegrable_const
+      (p := ENNReal.ofReal p) hHp hHp' hH_memLp).ae_mono
+    intro n
+    exact Filter.Eventually.of_forall fun x => by
+      simpa only [← ofReal_norm] using ENNReal.ofReal_le_ofReal (hF_dom_norm n x)
   have hutF : UnifTight F (ENNReal.ofReal p) volume := by
     intro ε hε
     obtain ⟨s, hμs, hs'⟩ := MeasureTheory.unifTight_const
-      (p := ENNReal.ofReal p) hHp' hH_memLp hε
+      (p := ENNReal.ofReal p) hHp' hH_memLp ε hε
     exact ⟨s, hμs, fun n =>
       le_trans (eLpNorm_indicator_le_of_norm_le (d := d) (fun x => hF_dom_norm n x) sᶜ) (hs' 0)⟩
   have hF_ae : ∀ᵐ x ∂volume, Tendsto (fun n => F n x) atTop (nhds 0) := by
@@ -812,17 +811,15 @@ private theorem tendsto_eLpNorm_fderiv_smoothUnitBallExtensionApprox_sub_exactGr
     exact hx.trans (le_abs_self _)
   -- UnifIntegrable and UnifTight
   have huiF : UnifIntegrable F (ENNReal.ofReal p) volume := by
-    intro ε hε
-    obtain ⟨δ, hδ, hδ'⟩ :=
-      MeasureTheory.unifIntegrable_const (p := ENNReal.ofReal p) hHp hHp' hH_memLp hε
-    exact ⟨δ, hδ, fun n s hs hμs =>
-      le_trans (eLpNorm_mono_ae ((hF_dom_norm n).mono fun x hx => by
-        simp only [Set.indicator]; split <;> [exact hx; exact le_refl _]))
-        (hδ' 0 s hs hμs)⟩
+    apply (MeasureTheory.unifIntegrable_const
+      (p := ENNReal.ofReal p) hHp hHp' hH_memLp).ae_mono
+    intro n
+    filter_upwards [hF_dom_norm n] with x hx
+    simpa only [← ofReal_norm] using ENNReal.ofReal_le_ofReal hx
   have hutF : UnifTight F (ENNReal.ofReal p) volume := by
     intro ε hε
     obtain ⟨s, hμs, hs'⟩ := MeasureTheory.unifTight_const
-      (p := ENNReal.ofReal p) hHp' hH_memLp hε
+      (p := ENNReal.ofReal p) hHp' hH_memLp ε hε
     exact ⟨s, hμs, fun n =>
       le_trans (eLpNorm_mono_ae ((hF_dom_norm n).mono fun x hx => by
         simp only [Set.indicator]; split <;> [exact hx; exact le_refl _]))

@@ -24,6 +24,11 @@ The compatibility repairs applied to the original library are:
   reviewed for this change; later CI checks exposed further simplifier-sensitive
   cases, which use the same explicit equality approach.
 
+- Uniform-integrability proofs use Mathlib's domination and subsequence lemmas
+  for its new limit-based definition. Uniform-tightness calls supply the now
+  explicit bound. Exact edited proof blocks passed Lean; full-file validation
+  remains part of CI. See `uniform-integrability-validation.json`.
+
 These repairs preserve mathematical statements and assumptions. The concrete
 Levi-Civita, Riemann, sectional-curvature, and Ricci comparison proofs passed a
 complete live Lean check and their axiom audits contain only the three standard

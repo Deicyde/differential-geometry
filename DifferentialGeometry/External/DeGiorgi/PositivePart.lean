@@ -459,23 +459,15 @@ theorem tendsto_eLpNorm_indicator_diff_mul_of_tendsto_eLpNorm
     exact MeasureTheory.unifIntegrable_const (p := (2 : ℝ≥0∞))
       (by norm_num) (by simp) hG_memLp
   have huiF : UnifIntegrable F 2 μ := by
-    intro ε hε
-    obtain ⟨δ, hδ, hδ'⟩ := huiG hε
-    refine ⟨δ, hδ, fun n s hs hμs => ?_⟩
-    calc
-      eLpNorm (s.indicator (F n)) 2 μ ≤ eLpNorm (s.indicator G) 2 μ := by
-        refine eLpNorm_mono ?_
-        intro x
-        by_cases hx : x ∈ s
-        · simp only [Set.indicator_of_mem hx, Real.norm_eq_abs]
-          exact hF_dom n x
-        · simp [Set.indicator_of_notMem, hx]
-      _ ≤ ENNReal.ofReal ε := hδ' 0 s hs hμs
+    apply huiG.ae_mono
+    intro n
+    exact Filter.Eventually.of_forall fun x => by
+      simpa only [← ofReal_norm] using ENNReal.ofReal_le_ofReal (hF_dom n x)
   have hutG : UnifTight (fun _ : ℕ => G) 2 μ := by
     exact MeasureTheory.unifTight_const (p := (2 : ℝ≥0∞)) (by simp) hG_memLp
   have hutF : UnifTight F 2 μ := by
     intro ε hε
-    obtain ⟨s, hμs, hs'⟩ := hutG hε
+    obtain ⟨s, hμs, hs'⟩ := hutG ε hε
     refine ⟨s, hμs, fun n => ?_⟩
     calc
       eLpNorm (sᶜ.indicator (F n)) 2 μ ≤ eLpNorm (sᶜ.indicator G) 2 μ := by
@@ -493,13 +485,9 @@ theorem tendsto_eLpNorm_indicator_diff_mul_of_tendsto_eLpNorm
       (μ := μ) (f := u) (ψ := fun n => ψ (ns n))
       (fun n => hψ_aestrong (ns n)) hu_aestrong (hψ.comp hns)
   have hui_subseq : UnifIntegrable (fun n => F (ns (ms n))) 2 μ := by
-    intro ε hε
-    obtain ⟨δ, hδ, hδ'⟩ := huiF hε
-    exact ⟨δ, hδ, fun n s hs hμs => hδ' (ns (ms n)) s hs hμs⟩
+    exact huiF.comp (fun n => ns (ms n))
   have hut_subseq : UnifTight (fun n => F (ns (ms n))) 2 μ := by
-    intro ε hε
-    obtain ⟨s, hμs, hs'⟩ := hutF hε
-    exact ⟨s, hμs, fun n => hs' (ns (ms n))⟩
+    exact hutF.comp (fun n => ns (ms n))
   have hF_ae :
       ∀ᵐ x ∂μ, Tendsto (fun n => F (ns (ms n)) x) atTop (nhds 0) := by
     filter_upwards [hzero, hms_ae] with x hxzero hxt
