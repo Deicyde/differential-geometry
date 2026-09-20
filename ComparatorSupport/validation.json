@@ -1,5 +1,5 @@
 {
-  "timestamp_utc": "2026-09-19T19:08:30.971376+00:00",
+  "timestamp_utc": "2026-09-20T00:06:41.294230+00:00",
   "files": {
     "Challenge.lean": {
       "lines": 245,
@@ -50,8 +50,8 @@
     "diagnostics": []
   },
   "concrete_original_curvature_bridge": "Complete HamiltonBridge passed normal build, full live Lean check, and full-statement axiom audits. See full-bridge-validation.json.",
-  "hamilton_solution": "Solution.lean imports original Hamilton and applies the checked bridge; full Solution build and Comparator remain pending.",
-  "comparator": "Full hosted check in progress. Prior attempts stopped at library compilation errors, now repaired; no full Comparator pass yet.",
+  "hamilton_solution": "Solution.lean compiled and passed the official full Comparator run, including transitive axiom audit and default Lean kernel replay.",
+  "comparator": "Passed on commit c282651d95a6c07d7c531c68e6835e9f2128a4b1; both official success messages, exit code 0, and all 3,944 Lean/configuration input hashes verified. See comparator-pass.json.",
   "definition_agreement_lsp": {
     "partial": false,
     "success": true,
@@ -68,5 +68,13 @@
     "live_lean_partial": false,
     "axiom_audit_exit_code": 0,
     "evidence": "full-bridge-validation.json"
+  },
+  "full_comparator": {
+    "passed": true,
+    "tested_commit": "c282651d95a6c07d7c531c68e6835e9f2128a4b1",
+    "ci_run_id": 35475666721,
+    "ci_url": "https://github.com/Deicyde/differential-geometry/actions/runs/35475666721",
+    "evidence": "comparator-pass.json",
+    "verification_verdict": "verified_official_pass"
   }
 }

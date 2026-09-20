@@ -5,10 +5,16 @@
 intentional. `Solution.lean` imports the repository's original Hamilton proof
 and transfers it through `HamiltonBridge.lean` to the same statement.
 
-**Validation is in progress. A completed Comparator pass has not yet been recorded.**
-The complete geometric bridge has passed its normal build, live Lean check,
-and axiom audits; see `full-bridge-validation.json`. The original Hamilton proof
-is still being rebuilt for the upgraded Mathlib and Lean versions.
+**The full Comparator check passed.** [Run 35475666721](https://github.com/Deicyde/differential-geometry/actions/runs/35475666721)
+validated commit `c282651d95a6c07d7c531c68e6835e9f2128a4b1`, finishing on
+September 20, 2026 UTC. The original Hamilton theorem and `Solution.lean` compiled,
+and Comparator reported both “Lean default kernel accepts the solution” and
+“Your solution is okay!” with exit code 0. All 3,944 recorded Lean/configuration
+files matched the checked sources. See [comparator-pass.json](comparator-pass.json)
+and its linked complete log, metadata, and source-hash verification.
+
+The geometric bridge also passed its normal build, full live Lean check, and
+separate axiom audits; see `full-bridge-validation.json`.
 
 `comparator.json` permits only `propext`, `Quot.sound`, and `Classical.choice`.
 It has no exempt definitions. `enable_nanoda: false` selects the builtin Lean
@@ -38,7 +44,8 @@ env LEAN_NUM_THREADS=2 lake build lean4export comparator
 Return to the repository root and run:
 
 ```sh
-python3 ComparatorSupport/run_comparator.py
+COMPARATOR_LANDRUN="$PWD/.lake/comparator-tools/v4.34.0-rc2/scripts/fake-landrun.sh" \
+  python3 ComparatorSupport/run_comparator.py
 ```
 
 The local default is two Lean worker threads. `--threads N` changes concurrency;
@@ -50,10 +57,11 @@ run. No heartbeat limit is changed.
 The runner writes its log, exit status, tool revisions, and before/after source
 hashes below `.lake/comparator/`. It reports a pass only after Comparator exits
 successfully, prints its success and kernel-acceptance messages, and the inputs
-remain unchanged. On macOS it uses the official development launcher, which
-does not provide Linux sandbox isolation. The statement comparison, transitive
-axiom audit, and Lean kernel replay still run.
+remain unchanged. Both the local macOS run and hosted Ubuntu workflow use the
+official development launcher without OS sandbox isolation. The statement
+comparison, transitive axiom audit, and Lean kernel replay still run.
 
-The support files `validation.json`, `LEVI_CIVITA_STATUS.md`, and
-`UPGRADE_PORT_STATUS.md` record earlier, limited checks and their scope. They are
-not substitutes for the final Comparator verdict.
+`comparator-pass.json` records the final official verdict. `validation.json`,
+`LEVI_CIVITA_STATUS.md`, and `UPGRADE_PORT_STATUS.md` summarize the final result
+and the earlier checks, retaining their precise scopes. This validates the
+Hamilton pair and its proof dependencies; it is not a full-repository build.

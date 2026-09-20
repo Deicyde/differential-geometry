@@ -1,6 +1,6 @@
 {
-  "checked_at_utc": "2026-09-19T21:09:39.653453+00:00",
-  "scope": "Complete AntidiagonalTupleProductGrid.lean checked locally; final Solution and official Comparator pass remain pending.",
+  "checked_at_utc": "2026-09-19T23:17:36.506109+00:00",
+  "scope": "Complete AntidiagonalTupleProductGrid.lean passed both local Lean validation and the source-matched CI12 build. The later final Solution/Comparator pass is recorded separately in comparator-pass.json.",
   "change": "Add explicit import Mathlib.Tactic.Ring for the existing ring tactic calls.",
   "only_added_import": true,
   "proofs_statements_and_hypotheses_unchanged": true,
@@ -26,5 +26,19 @@
   },
   "diagnostics": "",
   "toolchain": "leanprover/lean4:v4.34.0-rc2",
-  "local_evidence_directory": ".lake/comparator/antidiagonal-ring-port"
+  "local_evidence_directory": ".lake/comparator/antidiagonal-ring-port",
+  "hosted_build": {
+    "run_id": 35469608112,
+    "commit": "3349db99e0918b5d2ec300469293681c081c1eca",
+    "module": "DifferentialGeometry.Analysis.Sobolev.AntidiagonalTupleProductGrid",
+    "passed": true,
+    "seconds": 2.1,
+    "source_sha256": "0bb5e03992cabb207b49142477f9a16ce9a1c004a558569920dff060de715e62",
+    "current_source_matches_tested_commit": true,
+    "matches_initial_and_final_run_hashes": true,
+    "log_file": ".lake/ci/35469608112-comparator/2026-09-19T211345.967027Z/run.log",
+    "log_line": 1259,
+    "log_entry": "\u2714 [10067/10614] Built DifferentialGeometry.Analysis.Sobolev.AntidiagonalTupleProductGrid (2.1s)",
+    "scope": "Successful compilation of this entire module; the overall CI12 Comparator run failed later in Manifold.Lipschitz."
+  }
 }

@@ -1,0 +1,32 @@
+{
+  "result": "independently_verified",
+  "project_commit": "c282651d95a6c07d7c531c68e6835e9f2128a4b1",
+  "source_file_count": 3944,
+  "source_inventory_and_hashes_match": true,
+  "all_recorded_inputs_tracked_at_tested_commit": true,
+  "source_workflow_runner_match_tested_commit": true,
+  "metadata_sha256": "2fe4e7167fa20f58d00f3a8b87b3d4bf51f2e4c8475b4307e9cffb552f8d573a",
+  "log_sha256": "9ab9bc008e51e13217072cc56ad1e1ba9c79c46c7de5e5633d4c972b714d478c",
+  "official_return_code": 0,
+  "official_status": "passed",
+  "pinned_tools_verified": true,
+  "official_success_and_kernel_markers": true,
+  "launcher": "official development launcher; no OS sandbox isolation",
+  "marker_lines": {
+    "Lean default kernel accepts the solution": 2786,
+    "Your solution is okay!": 2787
+  },
+  "github_provenance": {
+    "repository": "Deicyde/differential-geometry",
+    "run_id": 35475666721,
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c282651d95a6c07d7c531c68e6835e9f2128a4b1",
+    "artifact_id": 10594732701,
+    "artifact_name": "hamilton-comparator-35475666721-1",
+    "github_reported_archive_sha256": "dc04a9f8cf4c21993d6935c67b634ce601c0dd9940d4c0e9c074484d44cf8697",
+    "independently_downloaded_archive_sha256": "dc04a9f8cf4c21993d6935c67b634ce601c0dd9940d4c0e9c074484d44cf8697",
+    "metadata_and_log_match_github_artifact_bytes": true
+  },
+  "checked_at_utc": "2026-09-20T00:08:14.601227+00:00"
+}

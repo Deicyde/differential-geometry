@@ -1,0 +1,17 @@
+{
+  "scope": "Verify a recorded official Comparator result; does not rerun Comparator",
+  "verdict": "verified_official_pass",
+  "artifact": "/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/ci/35475666721-comparator",
+  "repository": "/Users/jack/Desktop/LEAN/differential-geometry-updated",
+  "expected_project_commit": "c282651d95a6c07d7c531c68e6835e9f2128a4b1",
+  "errors": [],
+  "metadata": "/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/ci/35475666721-comparator/2026-09-19T231949.556037Z/metadata.json",
+  "log": "/Users/jack/Desktop/LEAN/differential-geometry-updated/.lake/ci/35475666721-comparator/2026-09-19T231949.556037Z/run.log",
+  "metadata_sha256": "2fe4e7167fa20f58d00f3a8b87b3d4bf51f2e4c8475b4307e9cffb552f8d573a",
+  "log_sha256": "9ab9bc008e51e13217072cc56ad1e1ba9c79c46c7de5e5633d4c972b714d478c",
+  "project_revision": "c282651d95a6c07d7c531c68e6835e9f2128a4b1",
+  "source_files_checked": 3944,
+  "source_files_recorded": 3944,
+  "source_mismatch_count": 0,
+  "source_mismatches": []
+}

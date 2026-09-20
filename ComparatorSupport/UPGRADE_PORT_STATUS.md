@@ -1,13 +1,15 @@
 # Mathlib upgrade validation
 
-Updated: 2026-09-19.
+Updated: 2026-09-20 UTC.
 
 The repository uses Mathlib commit `769b0a5ad45c8d886c754c0be19835b908f98dcb` and Lean `v4.34.0-rc2`, based on upstream differential-geometry commit `4fbccdf`.
 
-**The full Hamilton dependency build and Comparator validation are in progress.**
-The hosted `Hamilton Comparator` workflow runs the official checker against the
-pair, saves build progress after failures, and retains its complete logs. Successful
-individual module builds are not a substitute for a full Comparator pass.
+**The Hamilton/Solution dependency build and full Comparator validation passed.**
+[Run 35475666721](https://github.com/Deicyde/differential-geometry/actions/runs/35475666721)
+checked commit `c282651d95a6c07d7c531c68e6835e9f2128a4b1`, including default Lean
+kernel replay. All 3,944 recorded Lean/configuration source hashes match the
+checked files. See [comparator-pass.json](comparator-pass.json). The build covers
+the Hamilton pair and its proof dependencies, not every module in the repository.
 
 The compatibility repairs applied to the original library are:
 
@@ -17,8 +19,8 @@ The compatibility repairs applied to the original library are:
   complete file passed Lean; see `antidiagonal-ring-validation.json`.
 - Completeness proofs use the renamed `γ` argument.
 - Sobolev Lipschitz proofs use the renamed continuous-linear-equivalence lemma
-  `lipschitzWith`. Both exact repaired proof fragments passed Lean; complete-file
-  validation remains part of CI. See `manifold-lipschitz-validation.json` and
+  `lipschitzWith`. Both repaired complete files passed the final hosted build.
+  See `manifold-lipschitz-validation.json` and
   `intrinsic-lipschitz-validation.json`.
 - The zero-distance proof uses the separation field of its chosen metric space,
   avoiding the changed implicit arguments of the global lemma.
@@ -36,8 +38,10 @@ The compatibility repairs applied to the original library are:
   `variation-validation.json`.
 - Uniform-integrability proofs use Mathlib's domination and subsequence lemmas
   for its new limit-based definition. Uniform-tightness calls supply the now
-  explicit bound. Exact edited proof blocks passed Lean; full-file validation
-  remains part of CI. See `uniform-integrability-validation.json`.
+  explicit bound. `SmoothApproximation.lean` passed complete-file CI validation.
+  The three analogous repairs in `TestFunctions.lean`, `CutoffPrep/Basics.lean`,
+  and `PositivePart.lean` are outside the Solution dependency closure; only their
+  exact proof fragments were checked. See `uniform-integrability-validation.json`.
 
 These repairs preserve mathematical statements and assumptions. The concrete
 Levi-Civita, Riemann, sectional-curvature, and Ricci comparison proofs passed a

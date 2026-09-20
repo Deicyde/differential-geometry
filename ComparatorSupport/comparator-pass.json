@@ -1,0 +1,71 @@
+{
+  "status": "passed",
+  "scope": "Official Comparator validation of Challenge.lean / Solution.lean and the solution proof dependency closure; not a build of every repository module.",
+  "verified_at_utc": "2026-09-20T00:06:41.294230+00:00",
+  "ci_run_id": 35475666721,
+  "ci_url": "https://github.com/Deicyde/differential-geometry/actions/runs/35475666721",
+  "ci_conclusion": "success",
+  "tested_commit": "c282651d95a6c07d7c531c68e6835e9f2128a4b1",
+  "started_at": "2026-09-19T23:19:49.556037+00:00",
+  "finished_at": "2026-09-20T00:02:59.616986+00:00",
+  "toolchain": "leanprover/lean4:v4.34.0-rc2",
+  "mathlib_revision": "769b0a5ad45c8d886c754c0be19835b908f98dcb",
+  "comparator_revision": "19e111e2141cf333c7daff0f64c5f24acc91dd2e",
+  "lean4export_revision": "cacf989bd75f608700820f6afc595f32e7a99a4d",
+  "return_code": 0,
+  "official_log_messages": [
+    "Lean default kernel accepts the solution",
+    "Your solution is okay!"
+  ],
+  "source_files_checked": 3944,
+  "source_mismatch_count": 0,
+  "inputs_unchanged": true,
+  "verification_verdict": "verified_official_pass",
+  "heartbeat_override": false,
+  "launcher": "official development launcher; no OS sandbox isolation",
+  "configuration": {
+    "challenge_module": "Challenge",
+    "solution_module": "Solution",
+    "theorem_names": [
+      "HamiltonPointwise.hamilton_positive_ricci"
+    ],
+    "permitted_axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "enable_nanoda": false
+  },
+  "core_file_sha256": {
+    "Challenge.lean": "03f9b6d407eab42da62cec0d3d5b788345a39fc17867b44513aed12592d6d07f",
+    "Solution.lean": "d7e4c4c4e35203926c6c52787da2f507aca9222c3ec66a1ee82eaa722449698a",
+    "HamiltonDefinitions.lean": "1bca2a809ab0945c94431efd3d2b96caa99b397d0cc68e7adbda13f0061d823d",
+    "HamiltonBridge.lean": "a4a8a4d267bbd98cc794d28ca444b6062ef07830b792c7cc22abb82bc826e3bb",
+    "ComparatorSupport/LeviCivita.lean": "a27dba2e4be89776eb7c1600101271bb43ed04245dd39f707812a54ad5e35611",
+    "comparator.json": "a357b4af1606992fa3bcbfdd36aa9f8c95af135af6d6fca6d6a65caf0e83ecf9"
+  },
+  "evidence": {
+    "metadata.json": {
+      "path": "ComparatorSupport/results/2026-09-20-comparator/metadata.json",
+      "sha256": "2fe4e7167fa20f58d00f3a8b87b3d4bf51f2e4c8475b4307e9cffb552f8d573a"
+    },
+    "run.log": {
+      "path": "ComparatorSupport/results/2026-09-20-comparator/run.log",
+      "sha256": "9ab9bc008e51e13217072cc56ad1e1ba9c79c46c7de5e5633d4c972b714d478c"
+    },
+    "verification.json": {
+      "path": "ComparatorSupport/results/2026-09-20-comparator/verification.json",
+      "sha256": "4afc3c4b84e6adaa62f8b60c5b5cc5d03e0bfd5e3a13febce4c226c9d8da7f06"
+    },
+    "ci-run.json": {
+      "path": "ComparatorSupport/results/2026-09-20-comparator/ci-run.json",
+      "sha256": "3279b540a4b6e9f9aa58120fd3a280e9d18b6b288421c89820d3aacd862d0d1c"
+    },
+    "independent-verification.json": {
+      "path": "ComparatorSupport/results/2026-09-20-comparator/independent-verification.json",
+      "sha256": "5afa3148adae85e6d69272520bf194d0047ba96c8f13e8cf2e5e280a17f92b40"
+    }
+  },
+  "verification_scope": "Recorded official result, exact current Lean/configuration inventory and all file hashes. Provenance is the authenticated GitHub Actions artifact for the independently checked commit. The input inventory does not include prose documentation, runner Python, or workflow YAML.",
+  "source_workflow_runner_match_tested_commit": true
+}
